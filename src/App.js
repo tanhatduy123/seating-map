@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Main from "./component/Main";
+import FloorSeven from "./component/Floor-7";
 
 function App() {
   return (
-    <div className="">
+    <div className="App">
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<FloorSeven />} />
       </Routes>
     </div>
   );
