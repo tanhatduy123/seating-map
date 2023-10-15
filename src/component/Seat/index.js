@@ -1,5 +1,25 @@
 import React from "react";
+import HorizontalTable from "./Table/HorizontalTable";
+import HorizontalChair from "./Chair/HorizontalChair";
+import VerticalTable from "./Table/VerticalTable";
+import VerticalChair from "./Chair/VerticalChair";
 
-export default function Seat() {
-  return <div>index</div>;
+export default function Seat(props) {
+  const { horizontal, vertical } = props;
+  return (
+    <div className="container-seat">
+      {horizontal && (
+        <>
+          <HorizontalTable />
+          <HorizontalChair />
+        </>
+      )}
+      {vertical && (
+        <div className="container-vertical">
+          <VerticalTable />
+          <VerticalChair />
+        </div>
+      )}
+    </div>
+  );
 }

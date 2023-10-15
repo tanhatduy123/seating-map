@@ -1,5 +1,8 @@
 .App {
-  padding:20px;
+  /* padding:20px; */
+}
+h1,h2,h3,h4,h5,h6,p {
+  margin: 0;
 }
 /* Floor 7*/
 .container-floor-seven {
@@ -7,8 +10,50 @@
   height: 100vh;
 }
 .room {
+  position: relative;
   width: 40%;
   border-right: 10px solid #cf5454;
+  height: 30%;
+}
+.container-seat {
+  width: fit-content;
+}
+.room .door-room {
+  position: absolute;
+  bottom: 10%;
+  width: 30%;
+  border-bottom: 5px solid #cf5454;
+  transform: rotate(10deg);
+}
+.room .line {
+  position: absolute;
+  left: 30%;
+  bottom: 0;
+  width: 70%;
   border-bottom: 10px solid #cf5454;
-  height: 25%;
+}
+.horizontal-table {
+  width: 75px;
+  height: 35px;
+  background-color: #b55454;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 0.5px solid #fff;
+}
+.container-vertical {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vertical-table {
+  width: 35px;
+  height: 75px;
+  background-color: #b55454;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 0.5px solid #fff;
 }
