@@ -5,14 +5,15 @@ import VerticalTable from "./Table/VerticalTable";
 import VerticalChair from "./Chair/VerticalChair";
 
 export default function Seat(props) {
-  const { horizontal, vertical, lyingHorizontally, lyingVertically } = props;
+  const { horizontal, vertical, lyingHorizontally, lyingVertically, width } =
+    props;
   return (
     <div className="container-seat">
       {horizontal && (
-        <>
-          <HorizontalTable />
+        <div className="horizontal-container">
+          <HorizontalTable width={width} />
           <HorizontalChair />
-        </>
+        </div>
       )}
       {vertical && (
         <div className="container-vertical">
@@ -23,7 +24,7 @@ export default function Seat(props) {
       {lyingHorizontally && (
         <>
           <HorizontalChair lyingHorizontally />
-          <HorizontalTable />
+          <HorizontalTable width={width} />
         </>
       )}
       {lyingVertically && (

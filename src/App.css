@@ -9,11 +9,18 @@ h1,h2,h3,h4,h5,h6,p {
   border: 10px solid #cf5454;
   height: 100vh;
 }
+.horizontal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .room {
   position: relative;
-  width: 40%;
+  width: 35%;
   border-right: 10px solid #cf5454;
-  height: 30%;
+  height: 25%;
+  display: flex;
+  justify-content: space-between;
 }
 .container-seat {
   width: fit-content;
@@ -33,7 +40,6 @@ h1,h2,h3,h4,h5,h6,p {
   border-bottom: 10px solid #cf5454;
 }
 .horizontal-table {
-  width: 75px;
   height: 35px;
   background-color: #b55454;
   display: flex;
