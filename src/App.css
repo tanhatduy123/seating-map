@@ -8,6 +8,9 @@ h1,h2,h3,h4,h5,h6,p {
 .container-floor-seven {
   border: 10px solid #cf5454;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .horizontal-container {
   display: flex;
@@ -16,23 +19,23 @@ h1,h2,h3,h4,h5,h6,p {
 }
 .room {
   position: relative;
-  width: 35%;
+  width: 40%;
   border-right: 10px solid #cf5454;
-  height: 25%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
 }
 .container-seat {
   width: fit-content;
 }
-.room .door-room {
+.door-room {
   position: absolute;
   bottom: 10%;
   width: 30%;
   border-bottom: 5px solid #cf5454;
   transform: rotate(10deg);
 }
-.room .line {
+.line {
   position: absolute;
   left: 30%;
   bottom: 0;
