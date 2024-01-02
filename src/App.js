@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 import FloorSeven from "./component/Floor-7";
 import FloorEighth from "./component/Floor-8/FloorEighth";
 import FloorNine from "./component/Floor-9/FloorNine";
 
 function App() {
-  const [dataOption, setDataOption] = useState("floor-seven");
   const router = useNavigate();
+  const location = useLocation();
+  const [dataOption, setDataOption] = useState();
+
   useEffect(() => {
-    router(dataOption);
-  }, [dataOption]);
+    if (location.pathname && !dataOption) {
+      router(location.pathname);
+      setDataOption(location.pathname.slice(1));
+    }
+    if (dataOption) {
+      router(dataOption);
+    }
+  }, [dataOption, location.pathname, router]);
+
   return (
     <div className="App">
       <div className="position-relative">
@@ -23,6 +32,7 @@ function App() {
             className="form-select mt-2"
             aria-label="Default select example"
             style={{ zIndex: 9 }}
+            value={dataOption}
             onChange={(event) => setDataOption(event.target.value)}
           >
             <option value="floor-seven">lầu 7</option>

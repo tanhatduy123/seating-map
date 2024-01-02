@@ -4,14 +4,15 @@
 h1,h2,h3,h4,h5,h6,p {
   margin: 0;
 }
-/* Floor 7*/
-.container-floor-seven {
-  border: 10px solid #cf5454;
+.container-floor {
+  border: 10px solid #b2572a;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
+/* Floor 7*/
+
 .horizontal-container {
   display: flex;
   flex-direction: column;
@@ -20,8 +21,7 @@ h1,h2,h3,h4,h5,h6,p {
 .room {
   position: relative;
   width: 40%;
-  border-right: 10px solid #cf5454;
-  height: 100%;
+  border-right: 10px solid #b2572a;
   display: flex;
   justify-content: space-between;
 }
@@ -30,21 +30,17 @@ h1,h2,h3,h4,h5,h6,p {
 }
 .door-room {
   position: absolute;
-  bottom: 10%;
-  width: 30%;
-  border-bottom: 5px solid #cf5454;
+  width: 20%;
+  border-bottom: 5px solid #b2572a;
   transform: rotate(10deg);
 }
 .line {
   position: absolute;
-  left: 30%;
-  bottom: 0;
-  width: 70%;
-  border-bottom: 10px solid #cf5454;
+  border-bottom: 10px solid #b2572a;
 }
 .horizontal-table {
   height: 35px;
-  background-color: #b55454;
+  background-color: #b2572a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,10 +55,33 @@ h1,h2,h3,h4,h5,h6,p {
 .vertical-table {
   width: 35px;
   height: 75px;
-  background-color: #b55454;
+  background-color: #b2572a;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   border: 0.5px solid #fff;
+}
+/* Floor 8*/
+.wrap-room-meeting {
+  width: 15%;
+  height: 100%;
+}
+.room-meeting-top {
+  height: 50%;
+  position: relative;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  border-bottom: 10px solid #b2572a;
+}
+.room-meeting-bot {
+  position: relative;
+  height: 50%;
+  border-top: 15px solid #b2572a;
+}
+.line-height {
+  position: absolute;
+  width: 10px;
+  border-left: 10px solid #b2572a;
 }
