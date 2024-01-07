@@ -22,10 +22,10 @@ export default function Seat(props) {
         </div>
       )}
       {lyingHorizontally && (
-        <>
+        <div className="horizontal-container">
           <HorizontalChair lyingHorizontally />
           <HorizontalTable width={width} />
-        </>
+        </div>
       )}
       {lyingVertically && (
         <div className="container-vertical">

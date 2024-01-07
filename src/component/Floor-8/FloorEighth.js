@@ -114,25 +114,36 @@ export default function FloorEighth() {
           className="d-flex justify-content-between"
           style={{ marginLeft: "10%" }}
         >
-          <div className="d-flex ">
-            <Seat horizontal width="100" />
-            <Seat horizontal width="100" />
-            <Seat horizontal width="100" />
-          </div>
           <div className="d-flex">
             <Seat horizontal width="100" />
             <Seat horizontal width="100" />
-            <div
-              style={{
-                width: "470px",
-                height: "250px",
-                borderBottom: "10px solid #b2572a",
-                borderLeft: "10px solid #b2572a",
-              }}
-            ></div>
+            <Seat horizontal width="100" />
+          </div>
+          <div className="w-50 d-flex">
+            <div className="d-flex">
+              {[...Array(2)].map(() => (
+                <Seat horizontal width="100" />
+              ))}
+            </div>
+
+            <div className="w-100">
+              <div
+                style={{
+                  height: "160%",
+                  borderBottom: "10px solid #b2572a",
+                  borderLeft: "10px solid #b2572a",
+                }}
+              />
+              <div className="d-flex">
+                {[...Array(2)].map(() => (
+                  <Seat horizontal />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        <div className="d-flex">
+
+        <div className="d-flex" style={{ marginBottom: "10%" }}>
           <div style={{ marginLeft: "10%" }}>
             <div className="d-flex">
               {[...Array(5)].map(() => (
@@ -145,41 +156,32 @@ export default function FloorEighth() {
               ))}
             </div>
           </div>
+          {/*  */}
+        </div>
+        <div className="d-flex">
+          <div style={{ marginLeft: "10%" }}>
+            <div className="d-flex">
+              {[...Array(5)].map(() => (
+                <Seat lyingHorizontally />
+              ))}
+            </div>
+          </div>
           <div style={{ marginLeft: "26%" }}>
             <div className="d-flex">
               {[...Array(2)].map(() => (
-                <Seat horizontal />
+                <Seat lyingHorizontally />
               ))}
             </div>
           </div>
         </div>
-        <div>
-          <div className="d-flex">
-            <div style={{ marginLeft: "10%" }}>
-              <div className="d-flex">
-                {[...Array(5)].map(() => (
-                  <Seat lyingHorizontally />
-                ))}
-              </div>
-            </div>
-            <div style={{ marginLeft: "26%" }}>
-              <div className="d-flex">
-                {[...Array(2)].map(() => (
-                  <Seat lyingHorizontally />
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="d-flex">
-            <div
-              style={{
-                borderTop: "10px solid #b2572a",
-                borderRight: "10px solid #b2572a",
-                width: "85%",
-                height: "7vh",
-              }}
-            />
-          </div>
+        <div className="d-flex" style={{ height: "16%" }}>
+          <div
+            style={{
+              borderTop: "10px solid #b2572a",
+              borderRight: "10px solid #b2572a",
+              width: "85%",
+            }}
+          />
         </div>
       </div>
     </div>
