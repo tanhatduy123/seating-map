@@ -114,7 +114,7 @@ export default function FloorSeven() {
           </div>
         </div>
 
-        <div className="d-flex">
+        <div className="d-flex justify-content-between">
           <div style={{ marginLeft: "10%" }}>
             <div className="d-flex">
               {[...Array(5)].map(() => (
@@ -127,7 +127,7 @@ export default function FloorSeven() {
               ))}
             </div>
           </div>
-          <div style={{ marginLeft: "25%" }}>
+          <div>
             <div className="d-flex">
               {[...Array(5)].map(() => (
                 <Seat lyingHorizontally />
@@ -141,7 +141,7 @@ export default function FloorSeven() {
           </div>
         </div>
         <div>
-          <div className="d-flex">
+          <div className="d-flex justify-content-between">
             <div style={{ marginLeft: "10%" }}>
               <div className="d-flex">
                 {[...Array(5)].map(() => (
@@ -149,7 +149,7 @@ export default function FloorSeven() {
                 ))}
               </div>
             </div>
-            <div style={{ marginLeft: "25%" }}>
+            <div>
               <div className="d-flex">
                 {[...Array(5)].map(() => (
                   <Seat lyingHorizontally />
