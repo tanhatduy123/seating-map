@@ -5,7 +5,7 @@ export default function FloorSeven() {
   return (
     <div
       className="container-floor"
-      style={{ flexDirection: "row", justifyContent: "start" }}
+      style={{ flexDirection: "row", justifyContent: "start", height: "100vh" }}
     >
       <div className="wrap-room-meeting">
         <div className="room-meeting-top">
