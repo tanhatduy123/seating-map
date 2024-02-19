@@ -13,12 +13,17 @@ function App() {
   const [dataOption, setDataOption] = useState();
 
   useEffect(() => {
-    if (location.pathname && !dataOption) {
-      router(location.pathname);
-      setDataOption(location.pathname.slice(1));
-    }
-    if (dataOption) {
-      router(dataOption);
+    const checkLogin = JSON.parse(localStorage.getItem("login"));
+    if (checkLogin) {
+      if (location.pathname && !dataOption) {
+        router(location.pathname);
+        setDataOption(location.pathname.slice(1));
+      }
+      if (dataOption) {
+        router(dataOption);
+      }
+    } else {
+      router("/");
     }
   }, [dataOption, location.pathname, router]);
 

@@ -1,6 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+const dataLoginDefault = {
+  user: "admin",
+  password: "admin",
+};
 
 export default function Login() {
+  const router = useNavigate();
+  const [dataLogin, setDataLogin] = useState({
+    user: "",
+    password: "",
+  });
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  const handleLogin = () => {
+    if (
+      dataLogin.user === dataLoginDefault.user &&
+      dataLogin.password === dataLoginDefault.password
+    ) {
+      localStorage.setItem("login", JSON.stringify(true));
+      router("/floor-seven");
+    }
+  };
   return (
     <section className="vh-100">
       <div className="container py-5 h-100">
@@ -11,27 +34,27 @@ export default function Login() {
               style={{ borderRadius: "1rem" }}
             >
               <div className="card-body p-5 text-center">
-                <h3 className="mb-5">Sign in</h3>
+                <h3 className="mb-5">Đăng Nhập</h3>
 
                 <div className="form-outline mb-4">
-                  <label className="form-label" for="typeEmailX-2">
-                    Email
-                  </label>
+                  <label className="form-label">Tên đăng nhập</label>
                   <input
                     type="email"
-                    id="typeEmailX-2"
                     className="form-control form-control-lg"
+                    onChange={(e) =>
+                      setDataLogin({ ...dataLogin, user: e.target.value })
+                    }
                   />
                 </div>
 
                 <div className="form-outline mb-4">
-                  <label className="form-label" for="typePasswordX-2">
-                    Password
-                  </label>
+                  <label className="form-label">Mật khẩu</label>
                   <input
                     type="password"
-                    id="typePasswordX-2"
                     className="form-control form-control-lg"
+                    onChange={(e) =>
+                      setDataLogin({ ...dataLogin, password: e.target.value })
+                    }
                   />
                 </div>
 
@@ -40,18 +63,15 @@ export default function Login() {
                     className="form-check-input"
                     type="checkbox"
                     value=""
-                    id="form1Example3"
                   />
-                  <label className="form-check-label ms-2" for="form1Example3">
-                    Remember password
-                  </label>
+                  <label className="form-check-label ms-2">Nhớ mật khẩu</label>
                 </div>
 
                 <button
                   className="btn btn-primary btn-lg btn-block"
-                  type="submit"
+                  onClick={handleLogin}
                 >
-                  Login
+                  Đăng nhập
                 </button>
               </div>
             </div>
