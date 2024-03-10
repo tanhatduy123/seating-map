@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
+import axios from "axios";
+const getDataFloorNine = async (props) => {
+  const { setIsloading, setDataFloorNine } = props;
+  setIsloading(true);
+  await axios
+    .get(`http://localhost:3002/seat/floor9`)
+    .then((res) => {
+      setIsloading(false);
+      const persons = res.data;
+      setDataFloorNine(persons);
+    })
+    .catch((error) => {
+      setIsloading(false);
+      console.log(error);
+    });
+};
 
 export default function FloorNine() {
+  const [isloading, setIsloading] = useState(false);
+  const [dataFloorNine, setDataFloorNine] = useState([]);
+  useEffect(() => {
+    if (!isloading) {
+      getDataFloorNine({ setIsloading, setDataFloorNine });
+    }
+  }, []);
   return (
     <div
       className="container-floor"
@@ -82,6 +105,13 @@ export default function FloorNine() {
       </div>
       <div className="d-flex flex-column flex-grow-1 justify-content-between position-relative">
         <div className="d-flex flex-column position-absolute top-0 end-0">
+          {dataFloorNine?.data_room_9_1 &&
+            dataFloorNine?.data_room_9_1[0].map((item) => (
+              <div
+                className="cabinet-vertical"
+                // nameUser={item?.user?.nameUser}
+              />
+            ))}
           {[...Array(4)].map(() => (
             <div className="cabinet-vertical" />
           ))}
@@ -91,9 +121,21 @@ export default function FloorNine() {
             <div className="wardrobe" />
             <div>
               <div className="d-flex">
-                {[...Array(6)].map(() => (
-                  <Seat horizontal />
-                ))}
+                {dataFloorNine?.data_room_9_1 ? (
+                  dataFloorNine?.data_room_9_1[0].map((item) => (
+                    <Seat
+                      horizontal
+                      nameUser={item?.user?.nameUser}
+                      imgage={item?.user?.avatar}
+                    />
+                  ))
+                ) : (
+                  <>
+                    {[...Array(6)].map(() => (
+                      <Seat horizontal />
+                    ))}
+                  </>
+                )}
               </div>
             </div>
             <div className="wardrobe" />
@@ -109,14 +151,38 @@ export default function FloorNine() {
         >
           <div>
             <div className="d-flex">
-              {[...Array(6)].map(() => (
-                <Seat lyingHorizontally />
-              ))}
+              {dataFloorNine?.data_room_9_2 ? (
+                dataFloorNine?.data_room_9_2[0].map((item) => (
+                  <Seat
+                    lyingHorizontally
+                    nameUser={item?.user?.nameUser}
+                    imgage={item?.user?.avatar}
+                  />
+                ))
+              ) : (
+                <>
+                  {[...Array(6)].map(() => (
+                    <Seat lyingHorizontally />
+                  ))}
+                </>
+              )}
             </div>
             <div className="d-flex">
-              {[...Array(6)].map(() => (
-                <Seat horizontal />
-              ))}
+              {dataFloorNine?.data_room_9_3 ? (
+                dataFloorNine?.data_room_9_3[0].map((item) => (
+                  <Seat
+                    horizontal
+                    nameUser={item?.user?.nameUser}
+                    imgage={item?.user?.avatar}
+                  />
+                ))
+              ) : (
+                <>
+                  {[...Array(6)].map(() => (
+                    <Seat horizontal />
+                  ))}
+                </>
+              )}
             </div>
           </div>
           <div className="filing-cabinets">
