@@ -34,8 +34,16 @@ export default function ModalAddInfo(props) {
           <Input />
         </div>
         <div className="mt-3">
-          <p>Mã Nhân viên</p>
-          <Input />
+          <div className="d-flex justify-content-between">
+            <div style={{ width: "45%" }}>
+              <p>Mã Nhân viên</p>
+              <Input />
+            </div>
+            <div style={{ width: "45%" }}>
+              <p>Số điện thoại</p>
+              <Input />
+            </div>
+          </div>
         </div>
         <div className="mt-3">
           <p>Vị trí ngồi</p>
