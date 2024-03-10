@@ -6,6 +6,7 @@ import FloorEighth from "./component/Floor-8/FloorEighth";
 import FloorNine from "./component/Floor-9/FloorNine";
 import FloorTen from "./component/Floor-10/FloorTen";
 import Login from "./component/Login";
+import Receptionist from "./component/Receptionist";
 
 function App() {
   const router = useNavigate();
@@ -27,6 +28,10 @@ function App() {
     }
   }, [dataOption, location.pathname, router]);
 
+  const handleLogout = () => {
+    router("/");
+  };
+
   return (
     <div className="App">
       <div className="position-relative">
@@ -34,13 +39,25 @@ function App() {
           className="position-absolute d-flex flex-column align-items-end"
           style={{ top: 10, right: 10, zIndex: 9 }}
         >
-          <img width={120} src={require("./assets/logo_nanoco.png")} alt="" />
+          <div>
+            <img width={120} src={require("./assets/logo_nanoco.png")} alt="" />
+            {JSON.parse(localStorage.getItem("login")) && (
+              <img
+                className="ms-1"
+                width={30}
+                src={require("./assets/sign-out.png")}
+                alt=""
+                onClick={handleLogout}
+              />
+            )}
+          </div>
           <select
             className="form-select mt-2"
             aria-label="Default select example"
             value={dataOption}
             onChange={(event) => setDataOption(event.target.value)}
           >
+            <option value="receptionist">Lễ Tân</option>
             <option value="floor-seven">lầu 7</option>
             <option value="floor-eighth">lầu 8</option>
             <option value="floor-ninth">lầu 9</option>
@@ -51,6 +68,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/receptionist" element={<Receptionist />} />
           <Route path="/floor-seven" element={<FloorSeven />} />
           <Route path="/floor-eighth" element={<FloorEighth />} />
           <Route path="/floor-ninth" element={<FloorNine />} />

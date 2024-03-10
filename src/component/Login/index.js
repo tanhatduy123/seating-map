@@ -11,18 +11,39 @@ export default function Login() {
     user: "",
     password: "",
   });
+  const [errorValidate, setErrorValidate] = useState({});
+  const [isLogin, setIslogin] = useState(false);
   useEffect(() => {
     localStorage.clear();
   }, []);
 
   const handleLogin = () => {
-    if (
-      dataLogin.user === dataLoginDefault.user &&
-      dataLogin.password === dataLoginDefault.password
-    ) {
-      localStorage.setItem("login", JSON.stringify(true));
-      router("/floor-seven");
+    validate(dataLogin);
+    setIslogin(true);
+  };
+  useEffect(() => {
+    if (Object.keys(errorValidate).length > 0) {
+      setIslogin(false);
     }
+    if (Object.keys(errorValidate).length === 0 && isLogin) {
+      if (
+        dataLogin.user === dataLoginDefault.user &&
+        dataLogin.password === dataLoginDefault.password
+      ) {
+        localStorage.setItem("login", JSON.stringify(true));
+        router("/receptionist");
+      }
+    }
+  }, [errorValidate, dataLogin, router, isLogin]);
+  const validate = (data) => {
+    const error = {};
+    if (!data.user || data.user !== dataLoginDefault.user) {
+      error.user = true;
+    }
+    if (!data.password || data.user !== dataLoginDefault.password) {
+      error.password = true;
+    }
+    setErrorValidate(error);
   };
   return (
     <section className="vh-100">
@@ -40,7 +61,9 @@ export default function Login() {
                   <label className="form-label">Tên đăng nhập</label>
                   <input
                     type="email"
-                    className="form-control form-control-lg"
+                    className={`form-control form-control-lg ${
+                      errorValidate.user && "is-invalid"
+                    }`}
                     onChange={(e) =>
                       setDataLogin({ ...dataLogin, user: e.target.value })
                     }
@@ -51,7 +74,9 @@ export default function Login() {
                   <label className="form-label">Mật khẩu</label>
                   <input
                     type="password"
-                    className="form-control form-control-lg"
+                    className={`form-control form-control-lg ${
+                      errorValidate.password && "is-invalid"
+                    }`}
                     onChange={(e) =>
                       setDataLogin({ ...dataLogin, password: e.target.value })
                     }
