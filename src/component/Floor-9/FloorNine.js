@@ -24,6 +24,7 @@ export default function FloorNine() {
     if (!isloading) {
       getDataFloorNine({ setIsloading, setDataFloorNine });
     }
+    // eslint-disable-next-line
   }, []);
   return (
     <div
