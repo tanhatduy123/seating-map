@@ -12,7 +12,7 @@ function App() {
   const router = useNavigate();
   const location = useLocation();
   const [dataOption, setDataOption] = useState();
-  console.log(1212);
+
   useEffect(() => {
     const checkLogin = JSON.parse(localStorage.getItem("login"));
     if (checkLogin) {

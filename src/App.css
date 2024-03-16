@@ -3,10 +3,12 @@
 }
 h1,h2,h3,h4,h5,h6,p {
   margin: 0;
+  word-wrap: break-word;
+  width: 100%;
 }
 .container-floor {
   border: 10px solid #b2572a;
-  /* height: 100vh; */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

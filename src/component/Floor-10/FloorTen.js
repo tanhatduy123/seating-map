@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
+import axios from "axios";
+const getDataRoomFloor = async (props) => {
+  const { setIsloading, setDataRoom } = props;
+  setIsloading(true);
+  await axios
+    .get(`http://localhost:3002/seat/floor10`)
+    .then((res) => {
+      setIsloading(false);
+      const response = res.data;
+      setDataRoom(response);
+    })
+    .catch((error) => {
+      setIsloading(false);
+      console.log(error);
+    });
+};
 
 export default function FloorNine() {
+  const [dataRoom, setDataRoom] = useState();
+  const [isLoading, setIsloading] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading) {
+      getDataRoomFloor({ setDataRoom, setIsloading });
+    }
+    // eslint-disable-next-line
+  }, []);
+  console.log("dataRoom", dataRoom);
   return (
     <div
       className="container-floor position-relative"
@@ -11,26 +37,58 @@ export default function FloorNine() {
       <div className="d-flex flex-column justify-content-between w-75">
         <div className="d-flex justify-content-between">
           <div className="d-flex mt-2 ms-2">
-            {[...Array(2)].map(() => (
-              <Seat horizontal />
-            ))}
+            {dataRoom?.two_seat_first?.length > 0 ? (
+              dataRoom?.two_seat_first?.map((item) => (
+                <Seat horizontal dataDetailUser={item} />
+              ))
+            ) : (
+              <>
+                {[...Array(2)].map(() => (
+                  <Seat horizontal />
+                ))}
+              </>
+            )}
           </div>
           <div className="d-flex mt-2 me-2">
-            {[...Array(3)].map(() => (
-              <Seat horizontal />
-            ))}
+            {dataRoom?.three_seat?.length > 0 ? (
+              dataRoom?.three_seat?.map((item) => (
+                <Seat horizontal dataDetailUser={item} />
+              ))
+            ) : (
+              <>
+                {[...Array(3)].map(() => (
+                  <Seat horizontal />
+                ))}
+              </>
+            )}
           </div>
         </div>
         <div className="d-flex justify-content-between">
           <div className="d-flex mb-2 ms-2">
-            {[...Array(2)].map(() => (
-              <Seat lyingHorizontally />
-            ))}
+            {dataRoom?.two_seat?.length > 0 ? (
+              dataRoom?.two_seat?.map((item) => (
+                <Seat lyingHorizontally dataDetailUser={item} />
+              ))
+            ) : (
+              <>
+                {[...Array(2)].map(() => (
+                  <Seat lyingHorizontally />
+                ))}
+              </>
+            )}
           </div>
           <div className="d-flex mb-2 me-2">
-            {[...Array(3)].map(() => (
-              <Seat lyingHorizontally />
-            ))}
+            {dataRoom?.three_seat_last?.length > 0 ? (
+              dataRoom?.three_seat_last?.map((item) => (
+                <Seat lyingHorizontally dataDetailUser={item} />
+              ))
+            ) : (
+              <>
+                {[...Array(3)].map(() => (
+                  <Seat lyingHorizontally />
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>

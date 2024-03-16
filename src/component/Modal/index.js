@@ -1,19 +1,66 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input, Modal } from "antd";
+import axios from "axios";
+
+const APIAddUser = async (props) => {
+  const { dataSubmit, setIsModalOpen } = props;
+  const id = dataSubmit?.idSeat;
+  const params = {
+    idSeat: id,
+    nameUser: dataSubmit.name,
+    msnv: dataSubmit.code,
+    title: dataSubmit.part,
+    avatar: dataSubmit.imageAvatar,
+    idUser: dataSubmit.idUser || null,
+    phone: dataSubmit.phone,
+  };
+  await axios
+    .post(`http://localhost:3002/seat/seat-change/${id}`, params)
+    .then((res) => {
+      setIsModalOpen(false);
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 export default function ModalAddInfo(props) {
-  const { isModalOpen, setIsModalOpen } = props;
+  const { isModalOpen, setIsModalOpen, dataDetailUser } = props;
   const imgRef = useRef(null);
-  // const [dataDetail, setDataDetail] = useState([]);
   const [dataSubmit, setdataSubmit] = useState({});
 
   const handleOk = () => {
-    setIsModalOpen(false);
+    // setIsModalOpen(false);
+    HandleSubmit();
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  useEffect(() => {
+    if (dataDetailUser && Object.keys(dataDetailUser).length > 0) {
+      setdataSubmit({
+        ...dataSubmit,
+        imageAvatar: dataDetailUser?.user?.avatar,
+        name: dataDetailUser?.user?.nameUser,
+        part: dataDetailUser?.user?.title,
+        phone: dataDetailUser?.user?.phone,
+        seat: dataDetailUser?.nameSeat,
+        code: dataDetailUser?.user?.msnv,
+      });
+    }
+  }, [dataDetailUser, dataSubmit]);
 
+  const HandleSubmit = () => {
+    APIAddUser({
+      dataSubmit: {
+        ...dataSubmit,
+        idSeat: dataDetailUser?.idSeat,
+        idUser: dataDetailUser?.user?.idUser || null,
+      },
+      setIsModalOpen,
+    });
+  };
   return (
     <>
       <Modal
