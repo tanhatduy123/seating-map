@@ -110,7 +110,7 @@ export default function FloorNine() {
             dataFloorNine?.data_room_9_1[0].map((item) => (
               <div
                 className="cabinet-vertical"
-                nameUser={item?.user?.nameUser}
+                // nameUser={item?.user?.nameUser}
               />
             ))}
           {[...Array(4)].map(() => (
