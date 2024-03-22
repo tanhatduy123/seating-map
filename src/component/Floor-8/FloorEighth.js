@@ -1,7 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
+import axios from "axios";
+const getDataSmallRoomFloor = async (props) => {
+  const { setIsloading, setDataSmallRoom } = props;
+  setIsloading(true);
+  await axios
+    .get(`http://localhost:3002/seat/floor8-small-room`)
+    .then((res) => {
+      setIsloading(false);
+      const response = res.data.data_small_room;
+      setDataSmallRoom(response);
+    })
+    .catch((error) => {
+      setIsloading(false);
+      console.log(error);
+    });
+};
 
+const getDataRoomFloor = async (props) => {
+  const { setIsloading, setDataRoom } = props;
+  setIsloading(true);
+  await axios
+    .get(`http://localhost:3002/seat/floor8`)
+    .then((res) => {
+      setIsloading(false);
+      const response = res.data;
+      setDataRoom(response);
+    })
+    .catch((error) => {
+      setIsloading(false);
+      console.log(error);
+    });
+};
 export default function FloorEighth() {
+  const [dataSmallRoom, setDataSmallRoom] = useState([]);
+  const [dataRoom, setDataRoom] = useState();
+  const [isLoading, setIsloading] = useState(false);
+  useEffect(() => {
+    if (!isLoading) {
+      getDataSmallRoomFloor({ setIsloading, setDataSmallRoom });
+      getDataRoomFloor({ setIsloading, setDataRoom });
+    }
+    // eslint-disable-next-line
+  }, []);
   return (
     <div
       className="container-floor"
@@ -67,22 +108,34 @@ export default function FloorEighth() {
         <div>
           <div className="d-flex">
             <div className="room">
-              <Seat vertical />
+              <Seat
+                vertical
+                dataDetailUser={dataSmallRoom && dataSmallRoom[0]}
+              />
               <div className="container">
                 <div className="d-flex align-items-end">
-                  <div>
-                    <Seat lyingVertically />
-                  </div>
-                  <div>
-                    <Seat vertical />
-                    <Seat vertical />
+                  <div style={{ marginLeft: "20%" }}>
+                    <Seat
+                      vertical
+                      dataDetailUser={dataSmallRoom && dataSmallRoom[1]}
+                    />
+                    <Seat
+                      vertical
+                      dataDetailUser={dataSmallRoom && dataSmallRoom[2]}
+                    />
                   </div>
                 </div>
               </div>
 
               <div>
-                <Seat vertical />
-                <Seat vertical />
+                <Seat
+                  vertical
+                  dataDetailUser={dataSmallRoom && dataSmallRoom[3]}
+                />
+                <Seat
+                  vertical
+                  dataDetailUser={dataSmallRoom && dataSmallRoom[4]}
+                />
               </div>
               <div className="door-room" style={{ bottom: "10%" }} />
               <div
@@ -119,15 +172,50 @@ export default function FloorEighth() {
             style={{ marginLeft: "10%" }}
           >
             <div className="d-flex">
-              <Seat horizontal width="100" />
-              <Seat horizontal width="100" />
-              <Seat horizontal width="100" />
+              <Seat
+                horizontal
+                width="100"
+                dataDetailUser={
+                  dataRoom?.seven_seat_first?.length > 0 &&
+                  dataRoom?.seven_seat_first[0]
+                }
+              />
+              <Seat
+                horizontal
+                width="100"
+                dataDetailUser={
+                  dataRoom?.seven_seat_first?.length > 0 &&
+                  dataRoom?.seven_seat_first[1]
+                }
+              />
+              <Seat
+                horizontal
+                width="100"
+                dataDetailUser={
+                  dataRoom?.seven_seat_first?.length > 0 &&
+                  dataRoom?.seven_seat_first[2]
+                }
+              />
             </div>
             <div className="w-50 d-flex">
               <div className="d-flex">
-                {[...Array(2)].map(() => (
-                  <Seat horizontal width="100" />
-                ))}
+                <Seat
+                  horizontal
+                  width="100"
+                  dataDetailUser={
+                    dataRoom?.seven_seat_first?.length > 0 &&
+                    dataRoom?.seven_seat_first[3]
+                  }
+                />
+
+                <Seat
+                  horizontal
+                  width="100"
+                  dataDetailUser={
+                    dataRoom?.seven_seat_first?.length > 0 &&
+                    dataRoom?.seven_seat_first[4]
+                  }
+                />
               </div>
 
               <div className="w-100">
@@ -139,9 +227,21 @@ export default function FloorEighth() {
                   }}
                 />
                 <div className="d-flex">
-                  {[...Array(2)].map(() => (
-                    <Seat horizontal />
-                  ))}
+                  <Seat
+                    horizontal
+                    dataDetailUser={
+                      dataRoom?.seven_seat_first?.length > 0 &&
+                      dataRoom?.seven_seat_first[5]
+                    }
+                  />
+
+                  <Seat
+                    horizontal
+                    dataDetailUser={
+                      dataRoom?.seven_seat_first?.length > 0 &&
+                      dataRoom?.seven_seat_first[6]
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -151,14 +251,30 @@ export default function FloorEighth() {
         <div className="d-flex" style={{ marginBottom: "10%" }}>
           <div style={{ marginLeft: "10%" }}>
             <div className="d-flex">
-              {[...Array(5)].map(() => (
-                <Seat lyingHorizontally />
-              ))}
+              {dataRoom?.center_seat_1?.length > 0 ? (
+                dataRoom?.center_seat_1.map((item) => (
+                  <Seat lyingHorizontally dataDetailUser={item} />
+                ))
+              ) : (
+                <>
+                  {[...Array(5)].map(() => (
+                    <Seat lyingHorizontally />
+                  ))}
+                </>
+              )}
             </div>
             <div className="d-flex">
-              {[...Array(5)].map(() => (
-                <Seat horizontal />
-              ))}
+              {dataRoom?.center_seat_2?.length > 0 ? (
+                dataRoom?.center_seat_2.map((item) => (
+                  <Seat horizontal dataDetailUser={item} />
+                ))
+              ) : (
+                <>
+                  {[...Array(5)].map(() => (
+                    <Seat horizontal />
+                  ))}
+                </>
+              )}
             </div>
           </div>
           {/*  */}
@@ -167,16 +283,32 @@ export default function FloorEighth() {
           <div className="d-flex">
             <div style={{ marginLeft: "10%" }}>
               <div className="d-flex">
-                {[...Array(5)].map(() => (
-                  <Seat lyingHorizontally />
-                ))}
+                {dataRoom?.center_seat_3?.length > 0 ? (
+                  dataRoom?.center_seat_3.map((item) => (
+                    <Seat lyingHorizontally dataDetailUser={item} />
+                  ))
+                ) : (
+                  <>
+                    {[...Array(5)].map(() => (
+                      <Seat lyingHorizontally />
+                    ))}
+                  </>
+                )}
               </div>
             </div>
             <div style={{ marginLeft: "26%" }}>
               <div className="d-flex">
-                {[...Array(2)].map(() => (
-                  <Seat lyingHorizontally />
-                ))}
+                {dataRoom?.two_seat_last?.length > 0 ? (
+                  dataRoom?.two_seat_last.map((item) => (
+                    <Seat lyingHorizontally dataDetailUser={item} />
+                  ))
+                ) : (
+                  <>
+                    {[...Array(2)].map(() => (
+                      <Seat lyingHorizontally />
+                    ))}
+                  </>
+                )}
               </div>
             </div>
           </div>

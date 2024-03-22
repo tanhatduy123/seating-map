@@ -12,8 +12,7 @@ export default function Seat(props) {
     lyingHorizontally,
     lyingVertically,
     width,
-    nameUser,
-    imgage,
+    dataDetailUser,
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -24,9 +23,18 @@ export default function Seat(props) {
           className="horizontal-container"
           onClick={() => setIsModalOpen(true)}
         >
-          {imgage && <img src={imgage} className="img-avatar" alt="avatar" />}
+          {dataDetailUser?.user?.avatar && (
+            <img
+              src={dataDetailUser?.user?.avatar}
+              className="img-avatar"
+              alt="avatar"
+            />
+          )}
 
-          <HorizontalTable width={width} nameUser={nameUser} />
+          <HorizontalTable
+            width={width}
+            nameUser={dataDetailUser?.user?.nameUser}
+          />
           <HorizontalChair />
         </div>
       )}
@@ -35,11 +43,15 @@ export default function Seat(props) {
           className="container-vertical"
           onClick={() => setIsModalOpen(true)}
         >
-          {imgage && (
-            <img src={imgage} className="img-avatar-vertical" alt="avatar" />
+          {dataDetailUser?.user?.avatar && (
+            <img
+              src={dataDetailUser?.user?.avatar}
+              className="img-avatar-vertical"
+              alt="avatar"
+            />
           )}
 
-          <VerticalTable nameUser={nameUser} />
+          <VerticalTable nameUser={dataDetailUser?.user?.nameUser} />
           <VerticalChair />
         </div>
       )}
@@ -48,10 +60,19 @@ export default function Seat(props) {
           className="horizontal-container"
           onClick={() => setIsModalOpen(true)}
         >
-          {imgage && <img src={imgage} className="img-avatar" alt="avatar" />}
+          {dataDetailUser?.user?.avatar && (
+            <img
+              src={dataDetailUser?.user?.avatar}
+              className="img-avatar"
+              alt="avatar"
+            />
+          )}
 
           <HorizontalChair lyingHorizontally />
-          <HorizontalTable width={width} nameUser={nameUser} />
+          <HorizontalTable
+            width={width}
+            nameUser={dataDetailUser?.user?.nameUser}
+          />
         </div>
       )}
       {lyingVertically && (
@@ -59,15 +80,23 @@ export default function Seat(props) {
           className="container-vertical"
           onClick={() => setIsModalOpen(true)}
         >
-          {imgage && (
-            <img src={imgage} className="img-avatar-vertical" alt="avatar" />
+          {dataDetailUser?.user?.avatar && (
+            <img
+              src={dataDetailUser?.user?.avatar}
+              className="img-avatar-vertical"
+              alt="avatar"
+            />
           )}
 
           <VerticalChair lyingVertically />
-          <VerticalTable nameUser={nameUser} />
+          <VerticalTable nameUser={dataDetailUser?.user?.nameUser} />
         </div>
       )}
-      <ModalAddInfo isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <ModalAddInfo
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        dataDetailUser={dataDetailUser}
+      />
     </div>
   );
 }
