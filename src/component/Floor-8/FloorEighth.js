@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
 import axios from "axios";
+import SeatManage from "../SeatManage";
 const getDataSmallRoomFloor = async (props) => {
   const { setIsloading, setDataSmallRoom } = props;
   setIsloading(true);
@@ -63,22 +64,8 @@ export default function FloorEighth() {
             className="line-height"
             style={{ height: "70%", right: 0, top: 0 }}
           />
-          <div className="d-flex flex-column align-items-center">
-            <img
-              src={require("../../assets/chair.jpg")}
-              style={{ width: "30%", marginTop: "30px" }}
-              alt=""
-            />
-            <div
-              className="d-flex align-items-center justify-content-center"
-              style={{
-                backgroundColor: "#b2572a",
-                width: "70%",
-                height: "80px",
-              }}
-            >
-              <span style={{ color: "#fff" }}>Cô Tâm</span>
-            </div>
+          <div className="pt-5">
+            <SeatManage horizontal />
           </div>
         </div>
         <div className="room-meeting-bot">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
 import axios from "axios";
+import SeatManage from "../SeatManage";
 const getDataFloorNine = async (props) => {
   const { setIsloading, setDataFloorNine } = props;
   setIsloading(true);
@@ -44,22 +45,8 @@ export default function FloorNine() {
             className="line-height"
             style={{ height: "70%", right: 0, bottom: 0 }}
           />
-          <div className="d-flex flex-column align-items-center">
-            <img
-              src={require("../../assets/chair.jpg")}
-              style={{ width: "30%", marginTop: "30px" }}
-              alt=""
-            />
-            <div
-              className="d-flex align-items-center justify-content-center"
-              style={{
-                backgroundColor: "#b2572a",
-                width: "70%",
-                height: "80px",
-              }}
-            >
-              <span style={{ color: "#fff" }}>Anh Văn</span>
-            </div>
+          <div className="pt-5">
+            <SeatManage horizontal />
           </div>
         </div>
         <div className="room-meeting-bot">
@@ -76,29 +63,12 @@ export default function FloorNine() {
             className="line-height"
             style={{ height: "70%", right: 0, bottom: 0 }}
           />
+
           <div
-            className="d-flex flex-column align-items-center"
+            className="w-100 d-flex flex-column align-items-center"
             style={{ paddingTop: "150px" }}
           >
-            <div
-              className="d-flex align-items-center justify-content-center"
-              style={{
-                backgroundColor: "#b2572a",
-                width: "70%",
-                height: "80px",
-              }}
-            >
-              <span style={{ color: "#fff" }}>Chú Sang</span>
-            </div>
-            <img
-              src={require("../../assets/chair.jpg")}
-              style={{
-                width: "30%",
-                marginTop: "30px",
-                transform: "rotate(180deg)",
-              }}
-              alt=""
-            />
+            <SeatManage vertical />
           </div>
         </div>
       </div>

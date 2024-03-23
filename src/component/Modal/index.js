@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Input, Modal } from "antd";
+import { Button, Input, Modal } from "antd";
 import axios from "axios";
 
 const APIAddUser = async (props) => {
@@ -31,7 +31,7 @@ const APIAddUser = async (props) => {
 };
 
 export default function ModalAddInfo(props) {
-  const { isModalOpen, setIsModalOpen, dataDetailUser } = props;
+  const { isModalOpen, setIsModalOpen, dataDetailUser = {} } = props;
   const imgRef = useRef(null);
   const [dataSubmit, setdataSubmit] = useState({});
   const [errorValidate, setErrorValidate] = useState({});
@@ -49,6 +49,10 @@ export default function ModalAddInfo(props) {
 
   const HandleSubmit = () => {
     HandleValidateForm(dataSubmit);
+  };
+
+  const HandleDelete = () => {
+    console.log("xóa");
   };
 
   useEffect(() => {
@@ -102,18 +106,29 @@ export default function ModalAddInfo(props) {
     }
     setErrorValidate(error);
   };
-  console.log("dataSubmit", dataSubmit);
 
-  console.log("errorValidate", errorValidate);
   return (
     <>
       <Modal
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        confirmLoading={isLoading}
-        cancelText="Hủy bỏ"
-        okText="Xác nhận"
+        closeIcon={
+          <img
+            width={20}
+            src={require("../../assets/icon-close.png")}
+            alt=""
+            onClick={handleCancel}
+          />
+        }
+        footer={
+          <>
+            <Button onClick={HandleDelete}>Xóa</Button>
+            <Button type="primary" loading={isLoading} onClick={handleOk}>
+              Xác nhận
+            </Button>
+          </>
+        }
       >
         <div className="d-flex justify-content-center flex-column align-items-center">
           <div
