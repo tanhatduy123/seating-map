@@ -3,7 +3,7 @@ import { Input, Modal } from "antd";
 import axios from "axios";
 
 const APIAddUser = async (props) => {
-  const { dataSubmit, setIsModalOpen } = props;
+  const { dataSubmit, setIsModalOpen, setISsubmit, setIsloading } = props;
   const id = dataSubmit?.idSeat;
   const params = {
     idSeat: id,
@@ -14,14 +14,19 @@ const APIAddUser = async (props) => {
     idUser: dataSubmit.idUser || null,
     phone: dataSubmit.phone,
   };
+  setIsloading(true);
   await axios
     .post(`http://localhost:3002/seat/seat-change/${id}`, params)
     .then((res) => {
       setIsModalOpen(false);
+      setISsubmit(false);
+      setIsloading(false);
       window.location.reload();
     })
     .catch((error) => {
       console.log(error);
+      setIsloading(false);
+      setIsModalOpen(false);
     });
 };
 
@@ -29,14 +34,23 @@ export default function ModalAddInfo(props) {
   const { isModalOpen, setIsModalOpen, dataDetailUser } = props;
   const imgRef = useRef(null);
   const [dataSubmit, setdataSubmit] = useState({});
-
+  const [errorValidate, setErrorValidate] = useState({});
+  const [isLoading, setIsloading] = useState(false);
+  const [isSubmit, setISsubmit] = useState(false);
   const handleOk = () => {
     // setIsModalOpen(false);
     HandleSubmit();
+    setISsubmit(true);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setErrorValidate({});
   };
+
+  const HandleSubmit = () => {
+    HandleValidateForm(dataSubmit);
+  };
+
   useEffect(() => {
     if (dataDetailUser && Object.keys(dataDetailUser).length > 0) {
       setdataSubmit({
@@ -49,29 +63,63 @@ export default function ModalAddInfo(props) {
         code: dataDetailUser?.user?.msnv,
       });
     }
-  }, [dataDetailUser, dataSubmit]);
+  }, [dataDetailUser]);
 
-  const HandleSubmit = () => {
-    APIAddUser({
-      dataSubmit: {
-        ...dataSubmit,
-        idSeat: dataDetailUser?.idSeat,
-        idUser: dataDetailUser?.user?.idUser || null,
-      },
-      setIsModalOpen,
-    });
+  useEffect(() => {
+    if (errorValidate && Object.keys(errorValidate).length === 0 && isSubmit) {
+      APIAddUser({
+        dataSubmit: {
+          ...dataSubmit,
+          idSeat: dataDetailUser?.idSeat,
+          idUser: dataDetailUser?.user?.idUser || null,
+        },
+        setIsModalOpen,
+        setISsubmit,
+        setIsloading,
+      });
+    }
+  }, [errorValidate, isSubmit]);
+
+  const HandleValidateForm = (data) => {
+    const error = {};
+    // if (!data.imageAvatar) {
+    //   error.image = true;
+    // }
+    if (!data.name) {
+      error.name = true;
+    }
+    if (!data.part) {
+      error.part = true;
+    }
+    if (!data.phone) {
+      error.phone = true;
+    }
+    if (!data.seat) {
+      error.seat = true;
+    }
+    if (!data.code) {
+      error.code = true;
+    }
+    setErrorValidate(error);
   };
+  console.log("dataSubmit", dataSubmit);
+
+  console.log("errorValidate", errorValidate);
   return (
     <>
       <Modal
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        confirmLoading={isLoading}
         cancelText="Hủy bỏ"
         okText="Xác nhận"
       >
         <div className="d-flex justify-content-center flex-column align-items-center">
-          <div className="circle">
+          <div
+            className="circle"
+            style={{ borderColor: errorValidate.image && "#dc3545" }}
+          >
             {dataSubmit?.imageAvatar ? (
               <img
                 src={URL.createObjectURL(dataSubmit.imageAvatar)}
@@ -105,6 +153,7 @@ export default function ModalAddInfo(props) {
           <p>Họ Và Tên</p>
           <Input
             value={dataSubmit?.name}
+            status={errorValidate?.name && "error"}
             onChange={(event) =>
               setdataSubmit({ ...dataSubmit, name: event.target.value })
             }
@@ -116,6 +165,7 @@ export default function ModalAddInfo(props) {
               <p>Bộ phận</p>
               <Input
                 value={dataSubmit?.part}
+                status={errorValidate?.part && "error"}
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, part: event.target.value })
                 }
@@ -125,6 +175,7 @@ export default function ModalAddInfo(props) {
               <p>Số điện thoại</p>
               <Input
                 value={dataSubmit?.phone}
+                status={errorValidate?.phone && "error"}
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, phone: event.target.value })
                 }
@@ -138,6 +189,7 @@ export default function ModalAddInfo(props) {
               <p>Vị trí ngồi</p>
               <Input
                 value={dataSubmit?.seat}
+                status={errorValidate?.seat && "error"}
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, seat: event.target.value })
                 }
@@ -147,6 +199,7 @@ export default function ModalAddInfo(props) {
               <p>Mã nhân viên</p>
               <Input
                 value={dataSubmit?.code}
+                status={errorValidate?.code && "error"}
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, code: event.target.value })
                 }

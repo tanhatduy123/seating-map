@@ -7,6 +7,7 @@ import FloorNine from "./component/Floor-9/FloorNine";
 import FloorTen from "./component/Floor-10/FloorTen";
 import Login from "./component/Login";
 import Receptionist from "./component/Receptionist";
+import FloorSix from "./component/Floor-6";
 
 function App() {
   const router = useNavigate();
@@ -58,6 +59,7 @@ function App() {
             onChange={(event) => setDataOption(event.target.value)}
           >
             <option value="receptionist">Lễ Tân</option>
+            <option value="floor-six">Lầu 6</option>
             <option value="floor-seven">lầu 7</option>
             <option value="floor-eighth">lầu 8</option>
             <option value="floor-ninth">lầu 9</option>
@@ -69,6 +71,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/receptionist" element={<Receptionist />} />
+          <Route path="/floor-six" element={<FloorSix />} />
           <Route path="/floor-seven" element={<FloorSeven />} />
           <Route path="/floor-eighth" element={<FloorEighth />} />
           <Route path="/floor-ninth" element={<FloorNine />} />
