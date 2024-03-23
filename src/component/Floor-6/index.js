@@ -6,7 +6,7 @@ export default function FloorSix() {
     <div className="container-floor justify-content-between align-items-end">
       <div
         className="d-flex align-items-center"
-        style={{ margin: "10% 20% 0 0" }}
+        style={{ margin: "20% 20% 0 0" }}
       >
         <div>
           <div className="d-flex">
