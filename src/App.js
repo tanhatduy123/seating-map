@@ -41,7 +41,14 @@ function App() {
           style={{ top: 10, right: 10, zIndex: 9 }}
         >
           <div>
-            <img width={120} src={require("./assets/logo_nanoco.png")} alt="" />
+            <img
+              width={120}
+              src={require("./assets/logo_nanoco.png")}
+              alt=""
+              onClick={() =>
+                window.location.replace("https://www.nanoco.com.vn/")
+              }
+            />
             {JSON.parse(localStorage.getItem("login")) && (
               <img
                 className="ms-1"
