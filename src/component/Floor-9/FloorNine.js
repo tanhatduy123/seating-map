@@ -68,7 +68,7 @@ export default function FloorNine() {
             className="w-100 d-flex flex-column align-items-center"
             style={{ paddingTop: "150px" }}
           >
-            <SeatManage vertical />
+            <SeatManage lyingHorizontally />
           </div>
         </div>
       </div>

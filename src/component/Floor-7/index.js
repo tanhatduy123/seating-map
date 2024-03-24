@@ -44,7 +44,6 @@ export default function FloorSeven() {
     }
     // eslint-disable-next-line
   }, []);
-  console.log("dataRoom", dataRoom);
   return (
     <div
       className="container-floor"
@@ -301,7 +300,7 @@ export default function FloorSeven() {
               style={{
                 borderTop: "10px solid #b2572a",
                 borderRight: "10px solid #b2572a",
-                width: "85%",
+                width: "100%",
               }}
             />
             <div className="d-flex">

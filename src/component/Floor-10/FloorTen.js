@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
 import axios from "axios";
+import SeatManage from "../SeatManage";
 const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
   setIsloading(true);
@@ -116,8 +117,8 @@ export default function FloorNine() {
       </div>
 
       <div className="d-flex justify-content-center align-items-center w-25">
-        <div className="d-flex align-items-center justify-content-center">
-          <div className="d-flex align-items-center justify-content-center cabinet-vertical">
+        <SeatManage vertical />
+        {/* <div className="d-flex align-items-center justify-content-center cabinet-vertical">
             <span style={{ color: "#fff" }}>Chị Kathy</span>
           </div>
           <img
@@ -128,8 +129,7 @@ export default function FloorNine() {
               transform: "rotate(90deg)",
             }}
             alt=""
-          />
-        </div>
+          /> */}
       </div>
     </div>
   );

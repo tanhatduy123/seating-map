@@ -1,15 +1,17 @@
 import React from "react";
 
 export default function Chair(props) {
-  const { horizontal, vertical } = props;
+  const { horizontal, vertical, lyingHorizontally } = props;
   return (
-    <div className="w-100 d-flex justify-content-center">
+    <div className="d-flex justify-content-center">
       <img
         src={require("../../../assets/chair.jpg")}
         style={{
-          width: "30%",
+          width: "70%",
           transform:
-            (horizontal && "rotate(0deg)") || (vertical && "rotate(180deg)"),
+            (horizontal && "rotate(0deg)") ||
+            (lyingHorizontally && "rotate(180deg)") ||
+            (vertical && "rotate(90deg)"),
         }}
         alt=""
       />
