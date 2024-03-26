@@ -15,17 +15,23 @@ export default function Seat(props) {
     dataDetailUser,
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const admin = sessionStorage.getItem("admin");
 
+  console.log("admi", admin);
   return (
     <div className="container-seat">
       {horizontal && (
         <div
           className="horizontal-container"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            if (admin) {
+              setIsModalOpen(true);
+            }
+          }}
         >
           {dataDetailUser?.user?.avatar && (
             <img
-              src={dataDetailUser?.user?.avatar}
+              src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
               className="img-avatar"
               alt="avatar"
             />
@@ -41,11 +47,15 @@ export default function Seat(props) {
       {vertical && (
         <div
           className="container-vertical"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            if (admin) {
+              setIsModalOpen(true);
+            }
+          }}
         >
           {dataDetailUser?.user?.avatar && (
             <img
-              src={dataDetailUser?.user?.avatar}
+              src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
               className="img-avatar-vertical"
               alt="avatar"
             />
@@ -58,11 +68,15 @@ export default function Seat(props) {
       {lyingHorizontally && (
         <div
           className="horizontal-container"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            if (admin) {
+              setIsModalOpen(true);
+            }
+          }}
         >
           {dataDetailUser?.user?.avatar && (
             <img
-              src={dataDetailUser?.user?.avatar}
+              src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
               className="img-avatar"
               alt="avatar"
             />
@@ -78,11 +92,15 @@ export default function Seat(props) {
       {lyingVertically && (
         <div
           className="container-vertical"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            if (admin) {
+              setIsModalOpen(true);
+            }
+          }}
         >
           {dataDetailUser?.user?.avatar && (
             <img
-              src={dataDetailUser?.user?.avatar}
+              src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
               className="img-avatar-vertical"
               alt="avatar"
             />

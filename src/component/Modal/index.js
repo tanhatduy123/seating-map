@@ -1,22 +1,35 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Modal } from "antd";
 import axios from "axios";
+import { API_URL } from "../../config/indext";
 
 const APIAddUser = async (props) => {
   const { dataSubmit, setIsModalOpen, setISsubmit, setIsloading } = props;
   const id = dataSubmit?.idSeat;
-  const params = {
-    idSeat: id,
-    nameUser: dataSubmit.name,
-    msnv: dataSubmit.code,
-    title: dataSubmit.part,
-    avatar: dataSubmit.imageAvatar,
-    idUser: dataSubmit.idUser || null,
-    phone: dataSubmit.phone,
-  };
+  // const params = {
+  //   idSeat: id,
+  //   nameUser: dataSubmit.name,
+  //   msnv: dataSubmit.code,
+  //   title: dataSubmit.part,
+  //   avatar: dataSubmit.imageAvatar,
+  //   idUser: dataSubmit.idUser || null,
+  //   phone: dataSubmit.phone,
+  // };
+  // console.log(dataSubmit.imageAvatar);
+  // Tạo formData
+  const formData = new FormData();
+  formData.append("idSeat", id);
+  formData.append("nameUser", dataSubmit.name);
+  formData.append("msnv", dataSubmit.code);
+  formData.append("title", dataSubmit.part);
+  formData.append("phone", dataSubmit.phone);
+  formData.append("idUser", dataSubmit.idUser || null);
+  formData.append("avatar", dataSubmit.imageAvatar); // Thêm hình ảnh vào formData
+
+  console.log("formData", Array.from(formData));
   setIsloading(true);
   await axios
-    .post(`http://localhost:3002/seat/seat-change/${id}`, params)
+    .post(`${API_URL}/seat/seat-change/${id}`, formData)
     .then((res) => {
       setIsModalOpen(false);
       setISsubmit(false);
@@ -34,11 +47,13 @@ export default function ModalAddInfo(props) {
   const { isModalOpen, setIsModalOpen, dataDetailUser = {} } = props;
   const imgRef = useRef(null);
   const [dataSubmit, setdataSubmit] = useState({});
+  const [imageChange, setImageChange] = useState(false);
   const [errorValidate, setErrorValidate] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const [isSubmit, setISsubmit] = useState(false);
   const handleOk = () => {
     // setIsModalOpen(false);
+    console.log(123);
     HandleSubmit();
     setISsubmit(true);
   };
@@ -137,7 +152,11 @@ export default function ModalAddInfo(props) {
           >
             {dataSubmit?.imageAvatar ? (
               <img
-                src={URL.createObjectURL(dataSubmit.imageAvatar)}
+                src={
+                  imageChange
+                    ? URL.createObjectURL(dataSubmit.imageAvatar)
+                    : `https://drive.google.com/thumbnail?id=${dataSubmit?.imageAvatar}`
+                }
                 alt=""
                 onClick={() => imgRef.current.click()}
                 style={{ cursor: "pointer" }}
@@ -155,12 +174,13 @@ export default function ModalAddInfo(props) {
             ref={imgRef}
             type="file"
             hidden
-            onChange={(event) =>
+            onChange={(event) => {
+              setImageChange(true);
               setdataSubmit({
                 ...dataSubmit,
                 imageAvatar: event.target.files[0],
-              })
-            }
+              });
+            }}
           />
         </div>
 
@@ -205,6 +225,7 @@ export default function ModalAddInfo(props) {
               <Input
                 value={dataSubmit?.seat}
                 status={errorValidate?.seat && "error"}
+                readOnly
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, seat: event.target.value })
                 }

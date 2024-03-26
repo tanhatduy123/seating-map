@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
 import axios from "axios";
 import SeatManage from "../SeatManage";
+import { API_URL } from "../../config/indext";
 const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
   setIsloading(true);
   await axios
-    .get(`http://localhost:3002/seat/floor10`)
+    .get(`${API_URL}/seat/floor10`)
     .then((res) => {
       setIsloading(false);
       const response = res.data;

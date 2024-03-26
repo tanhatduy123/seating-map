@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
 import axios from "axios";
+import { API_URL } from "../../config/indext";
+
 const getDataSmallRoomFloor = async (props) => {
   const { setIsloading, setDataSmallRoom } = props;
   setIsloading(true);
   await axios
-    .get(`http://localhost:3002/seat/floor7-small-room`)
+    .get(`${API_URL}/seat/floor7-small-room`)
     .then((res) => {
       setIsloading(false);
       const response = res.data.data_small_room;
@@ -21,7 +23,7 @@ const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
   setIsloading(true);
   await axios
-    .get(`http://localhost:3002/seat/floor7`)
+    .get(`${API_URL}/seat/floor7`)
     .then((res) => {
       setIsloading(false);
       const response = res.data;

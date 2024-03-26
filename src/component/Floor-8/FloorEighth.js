@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
 import axios from "axios";
 import SeatManage from "../SeatManage";
+import { API_URL } from "../../config/indext";
+
 const getDataSmallRoomFloor = async (props) => {
   const { setIsloading, setDataSmallRoom } = props;
   setIsloading(true);
   await axios
-    .get(`http://localhost:3002/seat/floor8-small-room`)
+    .get(`${API_URL}/seat/floor8-small-room`)
     .then((res) => {
       setIsloading(false);
       const response = res.data.data_small_room;
@@ -22,7 +24,7 @@ const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
   setIsloading(true);
   await axios
-    .get(`http://localhost:3002/seat/floor8`)
+    .get(`${API_URL}/seat/floor8`)
     .then((res) => {
       setIsloading(false);
       const response = res.data;

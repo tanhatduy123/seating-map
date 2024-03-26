@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const dataLoginDefault = {
-  user: "admin",
+  user: "admin1",
   password: "admin",
+};
+
+const dataAdmin = {
+  user: "admin",
+  password: "T@mnguyen94",
 };
 
 export default function Login() {
@@ -32,15 +37,29 @@ export default function Login() {
       ) {
         localStorage.setItem("login", JSON.stringify(true));
         router("/receptionist");
+      } else if (
+        dataLogin.user === dataAdmin.user &&
+        dataLogin.password === dataAdmin.password
+      ) {
+        localStorage.setItem("login", JSON.stringify(true));
+        sessionStorage.setItem("admin", JSON.stringify(true));
+        router("/receptionist");
       }
     }
   }, [errorValidate, dataLogin, router, isLogin]);
   const validate = (data) => {
     const error = {};
-    if (!data.user || data.user !== dataLoginDefault.user) {
+    if (
+      !data.user ||
+      (data.user !== dataLoginDefault.user && data.user !== dataAdmin.user)
+    ) {
       error.user = true;
     }
-    if (!data.password || data.user !== dataLoginDefault.password) {
+    if (
+      !data.password ||
+      (data.password !== dataLoginDefault.password &&
+        data.password !== dataAdmin.password)
+    ) {
       error.password = true;
     }
     setErrorValidate(error);
