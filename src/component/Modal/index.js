@@ -6,16 +6,6 @@ import { API_URL } from "../../config/indext";
 const APIAddUser = async (props) => {
   const { dataSubmit, setIsModalOpen, setISsubmit, setIsloading } = props;
   const id = dataSubmit?.idSeat;
-  // const params = {
-  //   idSeat: id,
-  //   nameUser: dataSubmit.name,
-  //   msnv: dataSubmit.code,
-  //   title: dataSubmit.part,
-  //   avatar: dataSubmit.imageAvatar,
-  //   idUser: dataSubmit.idUser || null,
-  //   phone: dataSubmit.phone,
-  // };
-  // console.log(dataSubmit.imageAvatar);
   // Tạo formData
   const formData = new FormData();
   formData.append("idSeat", id);
@@ -26,7 +16,6 @@ const APIAddUser = async (props) => {
   formData.append("idUser", dataSubmit.idUser || null);
   formData.append("avatar", dataSubmit.imageAvatar); // Thêm hình ảnh vào formData
 
-  console.log("formData", Array.from(formData));
   setIsloading(true);
   await axios
     .post(`${API_URL}/seat/seat-change/${id}`, formData)
@@ -42,7 +31,21 @@ const APIAddUser = async (props) => {
       setIsModalOpen(false);
     });
 };
-
+const APIDelete = async (props) => {
+  const { setIsloading, id } = props;
+  setIsloading(true);
+  await axios
+    .delete(`${API_URL}/seat/delete/${id}`)
+    .then((res) => {
+      console.log(res);
+      setIsloading(false);
+      window.location.reload();
+    })
+    .catch((error) => {
+      setIsloading(false);
+      console.log(error);
+    });
+};
 export default function ModalAddInfo(props) {
   const { isModalOpen, setIsModalOpen, dataDetailUser = {} } = props;
   const imgRef = useRef(null);
@@ -66,8 +69,11 @@ export default function ModalAddInfo(props) {
     HandleValidateForm(dataSubmit);
   };
 
-  const HandleDelete = () => {
-    console.log("xóa");
+  const HandleDelete = (id) => {
+    console.log("id", id);
+    if (id) {
+      APIDelete({ setIsloading, id });
+    }
   };
 
   useEffect(() => {
@@ -138,7 +144,9 @@ export default function ModalAddInfo(props) {
         }
         footer={
           <>
-            <Button onClick={HandleDelete}>Xóa</Button>
+            <Button onClick={() => HandleDelete(dataDetailUser?.idSeat)}>
+              Xóa
+            </Button>
             <Button type="primary" loading={isLoading} onClick={handleOk}>
               Xác nhận
             </Button>

@@ -29,7 +29,7 @@ export default function FloorNine() {
     }
     // eslint-disable-next-line
   }, []);
-  console.log("dataRoom", dataRoom);
+
   return (
     <div
       className="container-floor position-relative"
@@ -118,19 +118,7 @@ export default function FloorNine() {
       </div>
 
       <div className="d-flex justify-content-center align-items-center w-25">
-        <SeatManage vertical />
-        {/* <div className="d-flex align-items-center justify-content-center cabinet-vertical">
-            <span style={{ color: "#fff" }}>Chị Kathy</span>
-          </div>
-          <img
-            src={require("../../assets/chair.jpg")}
-            style={{
-              width: "30%",
-              marginTop: "30px",
-              transform: "rotate(90deg)",
-            }}
-            alt=""
-          /> */}
+        <SeatManage vertical dataUser={dataRoom && dataRoom.seat_bod[0]} />
       </div>
     </div>
   );

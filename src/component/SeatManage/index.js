@@ -4,38 +4,66 @@ import Table from "./Table";
 import ModalAddInfo from "../Modal";
 
 export default function SeatManage(props) {
-  const { horizontal, vertical, lyingHorizontally } = props;
+  const { horizontal, vertical, lyingHorizontally, dataUser } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="w-100 d-flex flex-column align-items-center">
       {horizontal && (
         <div
-          className="w-100 d-flex flex-column align-items-center"
+          className="w-100 d-flex flex-column align-items-center position-relative"
           onClick={() => setIsModalOpen(true)}
         >
+          {dataUser?.user?.avatar && (
+            <img
+              src={`https://drive.google.com/thumbnail?id=${dataUser?.user?.avatar}`}
+              className="img-avatar-bod-horizontal"
+              alt="avatar"
+            />
+          )}
+
           <Chair horizontal />
-          <Table nameUser="Cô Vân" horizontal />
+          <Table nameUser={dataUser?.user?.nameUser} horizontal />
         </div>
       )}
       {lyingHorizontally && (
         <div
-          className="w-100 d-flex flex-column align-items-center"
+          className="w-100 d-flex flex-column align-items-center position-relative"
           onClick={() => setIsModalOpen(true)}
         >
-          <Table nameUser="Cô Vân" horizontal />
+          {dataUser?.user?.avatar && (
+            <img
+              src={`https://drive.google.com/thumbnail?id=${dataUser?.user?.avatar}`}
+              className="img-avatar-bod-lyingHorizontally"
+              alt="avatar"
+            />
+          )}
+
+          <Table nameUser={dataUser?.user?.nameUser} horizontal />
           <Chair lyingHorizontally />
         </div>
       )}
       {vertical && (
         <div
-          className="d-flex align-items-center"
+          className="d-flex align-items-center position-relative"
           onClick={() => setIsModalOpen(true)}
         >
-          <Table nameUser="Cô Vân" vertical />
+          {dataUser?.user?.avatar && (
+            <img
+              src={`https://drive.google.com/thumbnail?id=${dataUser?.user?.avatar}`}
+              className="img-avatar-bod-vertical"
+              alt="avatar"
+            />
+          )}
+
+          <Table nameUser={dataUser?.user?.nameUser} vertical />
           <Chair vertical />
         </div>
       )}
-      <ModalAddInfo isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <ModalAddInfo
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        dataDetailUser={dataUser}
+      />
     </div>
   );
 }

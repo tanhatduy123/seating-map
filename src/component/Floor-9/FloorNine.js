@@ -28,7 +28,7 @@ export default function FloorNine() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // console.log("dataFloorNine", dataFloorNine);
+  console.log("dataFloorNine", dataFloorNine);
   return (
     <div className="container-floor" style={{ flexDirection: "row" }}>
       <div className="wrap-room-meeting">
@@ -47,7 +47,7 @@ export default function FloorNine() {
             style={{ height: "70%", right: 0, bottom: 0 }}
           />
           <div className="pt-5">
-            <SeatManage horizontal />
+            <SeatManage horizontal dataUser={dataFloorNine.seat_bod_1} />
           </div>
         </div>
         <div className="room-meeting-bot">
@@ -69,7 +69,7 @@ export default function FloorNine() {
             className="w-100 d-flex flex-column align-items-center"
             style={{ paddingTop: "150px" }}
           >
-            <SeatManage lyingHorizontally />
+            <SeatManage lyingHorizontally dataUser={dataFloorNine.seat_bod_2} />
           </div>
         </div>
       </div>
@@ -84,18 +84,17 @@ export default function FloorNine() {
             <div className="wardrobe" />
             <div>
               <div className="d-flex">
-                {dataFloorNine?.data_room_9_1 ? (
-                  dataFloorNine?.data_room_9_1[0].map((item) => (
+                {dataFloorNine?.data_room_9_1?.length > 0 ? (
+                  dataFloorNine?.data_room_9_1?.map((item) => (
                     <Seat horizontal dataDetailUser={item} />
                   ))
                 ) : (
                   <>
-                    {[...Array(6)].map(() => (
+                    {[...Array(7)].map(() => (
                       <Seat horizontal />
                     ))}
                   </>
                 )}
-                <Seat horizontal />
               </div>
             </div>
             <div className="wardrobe" />
@@ -111,8 +110,8 @@ export default function FloorNine() {
         >
           <div>
             <div className="d-flex">
-              {dataFloorNine?.data_room_9_2 ? (
-                dataFloorNine?.data_room_9_2[0].map((item) => (
+              {dataFloorNine?.data_room_9_2?.length > 0 ? (
+                dataFloorNine?.data_room_9_2.map((item) => (
                   <Seat lyingHorizontally dataDetailUser={item} />
                 ))
               ) : (
@@ -124,8 +123,8 @@ export default function FloorNine() {
               )}
             </div>
             <div className="d-flex">
-              {dataFloorNine?.data_room_9_3 ? (
-                dataFloorNine?.data_room_9_3[0].map((item) => (
+              {dataFloorNine?.data_room_9_3?.length > 0 ? (
+                dataFloorNine?.data_room_9_3.map((item) => (
                   <Seat horizontal dataDetailUser={item} />
                 ))
               ) : (
