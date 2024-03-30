@@ -144,7 +144,13 @@ export default function ModalAddInfo(props) {
         }
         footer={
           <>
-            <Button onClick={() => HandleDelete(dataDetailUser?.idSeat)}>
+            <Button
+              onClick={() => {
+                if (admin) {
+                  HandleDelete(dataDetailUser?.idSeat);
+                }
+              }}
+            >
               Xóa
             </Button>
             <Button type="primary" loading={isLoading} onClick={handleOk}>
