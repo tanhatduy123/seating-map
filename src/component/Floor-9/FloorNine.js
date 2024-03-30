@@ -28,7 +28,6 @@ export default function FloorNine() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log("dataFloorNine", dataFloorNine);
   return (
     <div className="container-floor" style={{ flexDirection: "row" }}>
       <div className="wrap-room-meeting">

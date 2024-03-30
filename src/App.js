@@ -40,7 +40,7 @@ function App() {
           className="position-absolute d-flex flex-column align-items-end"
           style={{ top: 10, right: 10, zIndex: 9 }}
         >
-          <div>
+          <div style={{ cursor: "pointer" }}>
             <img
               width={120}
               src={require("./assets/logo_nanoco.png")}

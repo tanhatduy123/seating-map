@@ -15,7 +15,6 @@ export default function Seat(props) {
     dataDetailUser,
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const admin = sessionStorage.getItem("admin");
 
   return (
     <div className="container-seat">
@@ -23,9 +22,7 @@ export default function Seat(props) {
         <div
           className="horizontal-container"
           onClick={() => {
-            if (admin) {
-              setIsModalOpen(true);
-            }
+            setIsModalOpen(true);
           }}
         >
           {dataDetailUser?.user?.avatar && (
@@ -47,9 +44,7 @@ export default function Seat(props) {
         <div
           className="container-vertical"
           onClick={() => {
-            if (admin) {
-              setIsModalOpen(true);
-            }
+            setIsModalOpen(true);
           }}
         >
           {dataDetailUser?.user?.avatar && (
@@ -68,9 +63,7 @@ export default function Seat(props) {
         <div
           className="horizontal-container"
           onClick={() => {
-            if (admin) {
-              setIsModalOpen(true);
-            }
+            setIsModalOpen(true);
           }}
         >
           {dataDetailUser?.user?.avatar && (
@@ -92,9 +85,7 @@ export default function Seat(props) {
         <div
           className="container-vertical"
           onClick={() => {
-            if (admin) {
-              setIsModalOpen(true);
-            }
+            setIsModalOpen(true);
           }}
         >
           {dataDetailUser?.user?.avatar && (

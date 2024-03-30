@@ -12,6 +12,7 @@ export default function SeatManage(props) {
         <div
           className="w-100 d-flex flex-column align-items-center position-relative"
           onClick={() => setIsModalOpen(true)}
+          style={{ cursor: "pointer" }}
         >
           {dataUser?.user?.avatar && (
             <img
@@ -29,6 +30,7 @@ export default function SeatManage(props) {
         <div
           className="w-100 d-flex flex-column align-items-center position-relative"
           onClick={() => setIsModalOpen(true)}
+          style={{ cursor: "pointer" }}
         >
           {dataUser?.user?.avatar && (
             <img
@@ -46,6 +48,7 @@ export default function SeatManage(props) {
         <div
           className="d-flex align-items-center position-relative"
           onClick={() => setIsModalOpen(true)}
+          style={{ cursor: "pointer" }}
         >
           {dataUser?.user?.avatar && (
             <img

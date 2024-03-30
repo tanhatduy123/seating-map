@@ -40,7 +40,7 @@ export default function Receptionist() {
         <div>
           <div
             className="vertical-table"
-            style={{ width: "100px", height: "200px" }}
+            style={{ width: "100px", height: "200px", cursor: "pointer" }}
           >
             <p
               style={{

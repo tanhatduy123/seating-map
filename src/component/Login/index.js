@@ -20,6 +20,7 @@ export default function Login() {
   const [isLogin, setIslogin] = useState(false);
   useEffect(() => {
     localStorage.clear();
+    sessionStorage.clear();
   }, []);
 
   const handleLogin = () => {

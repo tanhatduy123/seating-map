@@ -47,6 +47,7 @@ const APIDelete = async (props) => {
     });
 };
 export default function ModalAddInfo(props) {
+  const admin = sessionStorage.getItem("admin");
   const { isModalOpen, setIsModalOpen, dataDetailUser = {} } = props;
   const imgRef = useRef(null);
   const [dataSubmit, setdataSubmit] = useState({});
@@ -70,7 +71,6 @@ export default function ModalAddInfo(props) {
   };
 
   const HandleDelete = (id) => {
-    console.log("id", id);
     if (id) {
       APIDelete({ setIsloading, id });
     }
@@ -189,6 +189,7 @@ export default function ModalAddInfo(props) {
                 imageAvatar: event.target.files[0],
               });
             }}
+            readOnly={!admin}
           />
         </div>
 
@@ -200,6 +201,7 @@ export default function ModalAddInfo(props) {
             onChange={(event) =>
               setdataSubmit({ ...dataSubmit, name: event.target.value })
             }
+            readOnly={!admin}
           />
         </div>
         <div className="mt-3">
@@ -212,6 +214,7 @@ export default function ModalAddInfo(props) {
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, part: event.target.value })
                 }
+                readOnly={!admin}
               />
             </div>
             <div style={{ width: "47%" }}>
@@ -222,6 +225,7 @@ export default function ModalAddInfo(props) {
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, phone: event.target.value })
                 }
+                readOnly={!admin}
               />
             </div>
           </div>
@@ -247,6 +251,7 @@ export default function ModalAddInfo(props) {
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, code: event.target.value })
                 }
+                readOnly={!admin}
               />
             </div>
           </div>
