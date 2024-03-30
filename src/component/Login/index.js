@@ -87,6 +87,11 @@ export default function Login() {
                     onChange={(e) =>
                       setDataLogin({ ...dataLogin, user: e.target.value })
                     }
+                    onKeyPress={(event) => {
+                      if (event.key === "Enter") {
+                        handleLogin();
+                      }
+                    }}
                   />
                 </div>
 
@@ -100,16 +105,12 @@ export default function Login() {
                     onChange={(e) =>
                       setDataLogin({ ...dataLogin, password: e.target.value })
                     }
+                    onKeyPress={(event) => {
+                      if (event.key === "Enter") {
+                        handleLogin();
+                      }
+                    }}
                   />
-                </div>
-
-                <div className="form-check d-flex justify-content-center mb-4">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                  />
-                  <label className="form-check-label ms-2">Nhớ mật khẩu</label>
                 </div>
 
                 <button
