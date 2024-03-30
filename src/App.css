@@ -5,6 +5,7 @@ h1,h2,h3,h4,h5,h6,p {
   margin: 0;
   word-wrap: break-word;
   width: 100%;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 .container-floor {
   border: 10px solid #b2572a;
@@ -59,8 +60,8 @@ h1,h2,h3,h4,h5,h6,p {
   cursor: pointer;
 }
 .vertical-table {
-  width: 35px;
-  height: 75px;
+  width: 40px;
+  height: 90px;
   background-color: #b2572a;
   display: flex;
   align-items: center;
@@ -90,13 +91,21 @@ h1,h2,h3,h4,h5,h6,p {
   width: 10px;
   border-left: 10px solid #b2572a;
 }
-.img-avatar {
+.horizontal-container .img-avatar-horizontal {
   position: absolute;
   vertical-align: middle;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  top: 30%;
+  top: 33%;
+}
+.horizontal-container .img-avatar-lyingHorizontally {
+  position: absolute;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  top: 27%;
 }
 .circle {
 	line-height: 0;		/* remove line-height */ 
@@ -121,7 +130,8 @@ h1,h2,h3,h4,h5,h6,p {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  top: 15%;
+  top: 22%;
+  left: 35%;
 }
 /* floor 9 */
 .wardrobe {

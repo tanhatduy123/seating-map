@@ -95,6 +95,7 @@ export default function FloorNine() {
                     ))}
                   </>
                 )}
+                <Seat horizontal />
               </div>
             </div>
             <div className="wardrobe" />

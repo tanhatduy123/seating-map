@@ -7,8 +7,7 @@ export default function VerticalTable(props) {
       {nameUser && (
         <p
           style={{
-            transform: "rotate(270deg)",
-            fontSize: 10,
+            fontSize: 12,
             textAlign: "center",
           }}
         >

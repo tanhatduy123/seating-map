@@ -17,7 +17,6 @@ export default function Seat(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const admin = sessionStorage.getItem("admin");
 
-  console.log("admi", admin);
   return (
     <div className="container-seat">
       {horizontal && (
@@ -32,7 +31,7 @@ export default function Seat(props) {
           {dataDetailUser?.user?.avatar && (
             <img
               src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
-              className="img-avatar"
+              className="img-avatar-horizontal"
               alt="avatar"
             />
           )}
@@ -77,7 +76,7 @@ export default function Seat(props) {
           {dataDetailUser?.user?.avatar && (
             <img
               src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
-              className="img-avatar"
+              className="img-avatar-lyingHorizontally"
               alt="avatar"
             />
           )}
