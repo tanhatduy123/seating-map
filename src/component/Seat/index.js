@@ -91,7 +91,7 @@ export default function Seat(props) {
           {dataDetailUser?.user?.avatar && (
             <img
               src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
-              className="img-avatar-vertical"
+              className="img-avatar-lyingVertically"
               alt="avatar"
             />
           )}
