@@ -46,6 +46,7 @@ export default function FloorEighth() {
     }
     // eslint-disable-next-line
   }, []);
+  console.log("dataRoom", dataRoom);
   return (
     <div
       className="container-floor"
@@ -67,7 +68,7 @@ export default function FloorEighth() {
             style={{ height: "70%", right: 0, top: 0 }}
           />
           <div className="pt-5">
-            <SeatManage horizontal />
+            <SeatManage horizontal dataUser={dataRoom?.seat_bod} />
           </div>
         </div>
         <div className="room-meeting-bot">
