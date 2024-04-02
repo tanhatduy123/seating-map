@@ -46,7 +46,6 @@ export default function FloorEighth() {
     }
     // eslint-disable-next-line
   }, []);
-  console.log("dataRoom", dataRoom);
   return (
     <div
       className="container-floor"
