@@ -57,7 +57,7 @@ export default function ModalAddInfo(props) {
   const [isLoading, setIsloading] = useState(false);
   const [isSubmit, setISsubmit] = useState(false);
   const [openModalChange, setOpenModalChange] = useState(false);
-  
+
   const handleOk = () => {
     // setIsModalOpen(false);
     console.log(123);
@@ -108,6 +108,10 @@ export default function ModalAddInfo(props) {
     }
   }, [errorValidate, isSubmit]);
 
+  useEffect(() => {
+    if (openModalChange) handleCancel();
+  }, [openModalChange]);
+
   const HandleValidateForm = (data) => {
     const error = {};
     // if (!data.imageAvatar) {
@@ -133,14 +137,6 @@ export default function ModalAddInfo(props) {
 
   return (
     <>
-      {openModalChange && (
-        <ModalChange
-          openModalChange={openModalChange}
-          setOpenModalChange={setOpenModalChange}
-          idRoom={dataDetailUser?.idRoom}
-        />
-      )}
-
       <Modal
         open={isModalOpen}
         onOk={handleOk}
@@ -283,6 +279,14 @@ export default function ModalAddInfo(props) {
           </div>
         </div>
       </Modal>
+      {openModalChange && (
+        <ModalChange
+          openModalChange={openModalChange}
+          setOpenModalChange={setOpenModalChange}
+          idRoom={dataDetailUser?.idRoom}
+          idSeatOld={dataDetailUser?.idSeat}
+        />
+      )}
     </>
   );
 }
