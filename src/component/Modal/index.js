@@ -162,10 +162,10 @@ export default function ModalAddInfo(props) {
             </Button>
 
             <Button
-              type="link"
               onClick={() => {
                 setOpenModalChange(true);
               }}
+              danger
             >
               Đổi
             </Button>

@@ -85,7 +85,13 @@ const ModalChange = (props) => {
         <>
           <Button onClick={handleCancel}>Hủy</Button>
 
-          <Button onClick={handleChangeSeat}>Đổi</Button>
+          <Button
+            onClick={handleChangeSeat}
+            type="primary"
+            // style={{ backgroundColor: "#ED7F11" }}
+          >
+            Đổi
+          </Button>
         </>
       }
     >
