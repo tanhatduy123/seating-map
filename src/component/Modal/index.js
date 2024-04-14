@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Modal } from "antd";
 import axios from "axios";
 import { API_URL } from "../../config/indext";
+import ModalChange from "./ModalChange";
 
 const APIAddUser = async (props) => {
   const { dataSubmit, setIsModalOpen, setISsubmit, setIsloading } = props;
@@ -55,6 +56,8 @@ export default function ModalAddInfo(props) {
   const [errorValidate, setErrorValidate] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const [isSubmit, setISsubmit] = useState(false);
+  const [openModalChange, setOpenModalChange] = useState(false);
+  
   const handleOk = () => {
     // setIsModalOpen(false);
     console.log(123);
@@ -130,6 +133,14 @@ export default function ModalAddInfo(props) {
 
   return (
     <>
+      {openModalChange && (
+        <ModalChange
+          openModalChange={openModalChange}
+          setOpenModalChange={setOpenModalChange}
+          idRoom={dataDetailUser?.idRoom}
+        />
+      )}
+
       <Modal
         open={isModalOpen}
         onOk={handleOk}
@@ -152,6 +163,15 @@ export default function ModalAddInfo(props) {
               }}
             >
               Xóa
+            </Button>
+
+            <Button
+              type="link"
+              onClick={() => {
+                setOpenModalChange(true);
+              }}
+            >
+              Đổi
             </Button>
             <Button type="primary" loading={isLoading} onClick={handleOk}>
               Xác nhận
