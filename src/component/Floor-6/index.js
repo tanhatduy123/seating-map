@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
-import axios from "axios";
-import { API_URL } from "../../config/indext";
+import { getListUserFloorSix } from "../../api/route";
 
 const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
   setIsloading(true);
-  await axios
-    .get(`${API_URL}/seat/floor6`)
-    .then((res) => {
-      setIsloading(false);
-      const response = res.data.data_small_room;
-      setDataRoom(response);
-    })
-    .catch((error) => {
-      setIsloading(false);
-      console.log(error);
-    });
+  const response = await getListUserFloorSix();
+  if (Object.keys(response).length > 0) {
+    setDataRoom(response);
+  }
+  setIsloading(false);
+  // setIsloading(true);
+  // await axios
+  //   .get(`${API_URL}/seat/floor6`)
+  //   .then((res) => {
+  //     setIsloading(false);
+  //     const response = res.data.data_small_room;
+  //     setDataRoom(response);
+  //   })
+  //   .catch((error) => {
+  //     setIsloading(false);
+  //     console.log(error);
+  //   });
 };
 
 export default function FloorSix() {
@@ -28,13 +33,23 @@ export default function FloorSix() {
     }
     // eslint-disable-next-line
   }, []);
-
+  console.log("dataRoom", dataRoom);
   return (
     <div className="container-floor justify-content-between align-items-end">
       <div
         className="d-flex align-items-center"
         style={{ margin: "20% 20% 0 0" }}
       >
+        <div className="d-flex" style={{ marginRight: "30px" }}>
+          <div>
+            <Seat lyingVertically />
+          </div>
+          <div>
+            <Seat vertical />
+            <Seat vertical />
+            <Seat vertical />
+          </div>
+        </div>
         <div>
           <div className="d-flex">
             <Seat lyingHorizontally dataDetailUser={dataRoom && dataRoom[0]} />

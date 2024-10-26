@@ -15,7 +15,6 @@ export default function Seat(props) {
     dataDetailUser,
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <div className="container-seat">
       {horizontal && (
@@ -33,10 +32,7 @@ export default function Seat(props) {
             />
           )}
 
-          <HorizontalTable
-            width={width}
-            nameUser={dataDetailUser?.user?.nameUser}
-          />
+          <HorizontalTable width={width} nameUser={dataDetailUser?.name} />
           <HorizontalChair />
         </div>
       )}
@@ -55,7 +51,7 @@ export default function Seat(props) {
             />
           )}
 
-          <VerticalTable nameUser={dataDetailUser?.user?.nameUser} />
+          <VerticalTable nameUser={dataDetailUser?.name} />
           <VerticalChair />
         </div>
       )}
@@ -75,10 +71,7 @@ export default function Seat(props) {
           )}
 
           <HorizontalChair lyingHorizontally />
-          <HorizontalTable
-            width={width}
-            nameUser={dataDetailUser?.user?.nameUser}
-          />
+          <HorizontalTable width={width} nameUser={dataDetailUser?.name} />
         </div>
       )}
       {lyingVertically && (
@@ -97,7 +90,7 @@ export default function Seat(props) {
           )}
 
           <VerticalChair lyingVertically />
-          <VerticalTable nameUser={dataDetailUser?.user?.nameUser} />
+          <VerticalTable nameUser={dataDetailUser?.name} />
         </div>
       )}
       <ModalAddInfo
