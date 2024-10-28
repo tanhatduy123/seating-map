@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
 import { getListUserFloorSix } from "../../api/route";
+import { SeatUser } from "../../helpers";
 
 const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
@@ -10,18 +11,6 @@ const getDataRoomFloor = async (props) => {
     setDataRoom(response);
   }
   setIsloading(false);
-  // setIsloading(true);
-  // await axios
-  //   .get(`${API_URL}/seat/floor6`)
-  //   .then((res) => {
-  //     setIsloading(false);
-  //     const response = res.data.data_small_room;
-  //     setDataRoom(response);
-  //   })
-  //   .catch((error) => {
-  //     setIsloading(false);
-  //     console.log(error);
-  //   });
 };
 
 export default function FloorSix() {
@@ -33,7 +22,6 @@ export default function FloorSix() {
     }
     // eslint-disable-next-line
   }, []);
-  console.log("dataRoom", dataRoom);
   return (
     <div className="container-floor justify-content-between align-items-end">
       <div
@@ -52,23 +40,23 @@ export default function FloorSix() {
         </div>
         <div>
           <div className="d-flex">
-            <Seat lyingHorizontally dataDetailUser={dataRoom && dataRoom[0]} />
-            <Seat lyingHorizontally dataDetailUser={dataRoom && dataRoom[1]} />
+            <Seat lyingHorizontally dataDetailUser={SeatUser(1, dataRoom)} />
+            <Seat lyingHorizontally dataDetailUser={SeatUser(2, dataRoom)} />
           </div>
           <div className="d-flex">
-            <Seat horizontal dataDetailUser={dataRoom && dataRoom[2]} />
-            <Seat horizontal dataDetailUser={dataRoom && dataRoom[3]} />
+            <Seat horizontal dataDetailUser={SeatUser(3, dataRoom)} />
+            <Seat horizontal dataDetailUser={SeatUser(4, dataRoom)} />
           </div>
         </div>
 
         <div>
-          <Seat vertical dataDetailUser={dataRoom && dataRoom[4]} />
-          <Seat vertical dataDetailUser={dataRoom && dataRoom[5]} />
-          <Seat vertical dataDetailUser={dataRoom && dataRoom[6]} />
+          <Seat vertical dataDetailUser={SeatUser(5, dataRoom)} />
+          <Seat vertical dataDetailUser={SeatUser(6, dataRoom)} />
+          <Seat vertical dataDetailUser={SeatUser(7, dataRoom)} />
         </div>
       </div>
       <div style={{ marginRight: "15%" }}>
-        <Seat horizontal dataDetailUser={dataRoom && dataRoom[7]} />
+        <Seat horizontal dataDetailUser={SeatUser(8, dataRoom)} />
       </div>
     </div>
   );

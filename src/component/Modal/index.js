@@ -57,7 +57,6 @@ export default function ModalAddInfo(props) {
   const [isLoading, setIsloading] = useState(false);
   const [isSubmit, setISsubmit] = useState(false);
   const [openModalChange, setOpenModalChange] = useState(false);
-
   const handleOk = () => {
     // setIsModalOpen(false);
     console.log(123);
@@ -83,12 +82,12 @@ export default function ModalAddInfo(props) {
     if (dataDetailUser && Object.keys(dataDetailUser).length > 0) {
       setdataSubmit({
         ...dataSubmit,
-        imageAvatar: dataDetailUser?.user?.avatar,
-        name: dataDetailUser?.user?.nameUser,
-        part: dataDetailUser?.user?.title,
-        phone: dataDetailUser?.user?.phone,
-        seat: dataDetailUser?.nameSeat,
-        code: dataDetailUser?.user?.msnv,
+        imageAvatar: dataDetailUser?.avatar,
+        name: dataDetailUser?.name,
+        part: dataDetailUser?.part,
+        phone: dataDetailUser?.phone,
+        seat: dataDetailUser?.seat,
+        code: dataDetailUser?.code,
       });
     }
   }, [dataDetailUser]);

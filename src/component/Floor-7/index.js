@@ -1,51 +1,25 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
-import axios from "axios";
-import { API_URL } from "../../config/indext";
-
-const getDataSmallRoomFloor = async (props) => {
-  const { setIsloading, setDataSmallRoom } = props;
-  setIsloading(true);
-  await axios
-    .get(`${API_URL}/seat/floor7-small-room`)
-    .then((res) => {
-      setIsloading(false);
-      const response = res.data.data_small_room;
-      setDataSmallRoom(response);
-    })
-    .catch((error) => {
-      setIsloading(false);
-      console.log(error);
-    });
-};
+import { getListUserFloorSeven } from "../../api/route";
+import { SeatUser } from "../../helpers";
 
 const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
   setIsloading(true);
-  await axios
-    .get(`${API_URL}/seat/floor7`)
-    .then((res) => {
-      setIsloading(false);
-      const response = res.data;
-      setDataRoom(response);
-    })
-    .catch((error) => {
-      setIsloading(false);
-      console.log(error);
-    });
+  const response = await getListUserFloorSeven();
+  setDataRoom(response);
 };
 
 export default function FloorSeven() {
-  const [dataSmallRoom, setDataSmallRoom] = useState([]);
   const [dataRoom, setDataRoom] = useState([]);
   const [isLoading, setIsloading] = useState(false);
   useEffect(() => {
     if (!isLoading) {
-      getDataSmallRoomFloor({ setIsloading, setDataSmallRoom });
       getDataRoomFloor({ setIsloading, setDataRoom });
     }
     // eslint-disable-next-line
   }, []);
+
   return (
     <div
       className="container-floor"
@@ -101,42 +75,25 @@ export default function FloorSeven() {
         <div>
           <div className="d-flex">
             <div className="room">
-              <Seat
-                vertical
-                dataDetailUser={dataSmallRoom && dataSmallRoom[0]}
-              />
-
+              <Seat vertical dataDetailUser={SeatUser(1, dataRoom)} />
               <div className="container">
                 <div className="d-flex align-items-end">
                   <div>
                     <Seat
                       lyingVertically
-                      dataDetailUser={dataSmallRoom && dataSmallRoom[1]}
+                      dataDetailUser={SeatUser(2, dataRoom)}
                     />
                   </div>
 
                   <div>
-                    <Seat
-                      vertical
-                      dataDetailUser={dataSmallRoom && dataSmallRoom[2]}
-                    />
-                    <Seat
-                      vertical
-                      dataDetailUser={dataSmallRoom && dataSmallRoom[3]}
-                    />
+                    <Seat vertical dataDetailUser={SeatUser(3, dataRoom)} />
+                    <Seat vertical dataDetailUser={SeatUser(4, dataRoom)} />
                   </div>
                 </div>
               </div>
-
               <div>
-                <Seat
-                  vertical
-                  dataDetailUser={dataSmallRoom && dataSmallRoom[4]}
-                />
-                <Seat
-                  vertical
-                  dataDetailUser={dataSmallRoom && dataSmallRoom[5]}
-                />
+                <Seat vertical dataDetailUser={SeatUser(5, dataRoom)} />
+                <Seat vertical dataDetailUser={SeatUser(6, dataRoom)} />
               </div>
               <div className="door-room" style={{ bottom: "10%" }} />
               <div
@@ -172,35 +129,23 @@ export default function FloorSeven() {
             <Seat
               horizontal
               width="100"
-              dataDetailUser={
-                dataRoom?.four_seat_first?.length > 0 &&
-                dataRoom?.four_seat_first[0]
-              }
+              dataDetailUser={SeatUser(7, dataRoom)}
             />
             <Seat
               horizontal
               width="100"
-              dataDetailUser={
-                dataRoom?.four_seat_first?.length > 0 &&
-                dataRoom?.four_seat_first[1]
-              }
+              dataDetailUser={SeatUser(8, dataRoom)}
             />
             <Seat
               horizontal
               width="100"
-              dataDetailUser={
-                dataRoom?.four_seat_first?.length > 0 &&
-                dataRoom?.four_seat_first[2]
-              }
+              dataDetailUser={SeatUser(9, dataRoom)}
             />
             <div style={{ marginLeft: "35%" }}>
               <Seat
                 horizontal
                 width="100"
-                dataDetailUser={
-                  dataRoom?.four_seat_first?.length > 0 &&
-                  dataRoom?.four_seat_first[3]
-                }
+                dataDetailUser={SeatUser(10, dataRoom)}
               />
             </div>
           </div>
@@ -209,58 +154,38 @@ export default function FloorSeven() {
         <div className="d-flex justify-content-between">
           <div style={{ marginLeft: "10%" }}>
             <div className="d-flex">
-              {dataRoom?.center_seat_1?.length > 0 ? (
-                dataRoom?.center_seat_1.map((item) => (
-                  <Seat lyingHorizontally dataDetailUser={item} />
-                ))
-              ) : (
-                <>
-                  {[...Array(5)].map(() => (
-                    <Seat lyingHorizontally />
-                  ))}
-                </>
-              )}
+              {[...Array(5)].map((_, index) => (
+                <Seat
+                  lyingHorizontally
+                  dataDetailUser={SeatUser(index + 11, dataRoom)}
+                />
+              ))}
             </div>
             <div className="d-flex">
-              {dataRoom?.center_seat_2?.length > 0 ? (
-                dataRoom?.center_seat_2.map((item) => (
-                  <Seat horizontal dataDetailUser={item} />
-                ))
-              ) : (
-                <>
-                  {[...Array(5)].map(() => (
-                    <Seat horizontal />
-                  ))}
-                </>
-              )}
+              {[...Array(5)].map((_, index) => (
+                <Seat
+                  horizontal
+                  dataDetailUser={SeatUser(index + 16, dataRoom)}
+                />
+              ))}
             </div>
           </div>
           <div>
             <div className="d-flex">
-              {dataRoom?.center_seat_3?.length > 0 ? (
-                dataRoom?.center_seat_3.map((item) => (
-                  <Seat lyingHorizontally dataDetailUser={item} />
-                ))
-              ) : (
-                <>
-                  {[...Array(5)].map(() => (
-                    <Seat lyingHorizontally />
-                  ))}
-                </>
-              )}
+              {[...Array(5)].map((_, index) => (
+                <Seat
+                  lyingHorizontally
+                  dataDetailUser={SeatUser(index + 21, dataRoom)}
+                />
+              ))}
             </div>
             <div className="d-flex">
-              {dataRoom?.center_seat_4?.length > 0 ? (
-                dataRoom?.center_seat_4.map((item) => (
-                  <Seat horizontal dataDetailUser={item} />
-                ))
-              ) : (
-                <>
-                  {[...Array(5)].map(() => (
-                    <Seat horizontal />
-                  ))}
-                </>
-              )}
+              {[...Array(5)].map((_, index) => (
+                <Seat
+                  horizontal
+                  dataDetailUser={SeatUser(index + 26, dataRoom)}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -268,32 +193,22 @@ export default function FloorSeven() {
           <div className="d-flex justify-content-between">
             <div style={{ marginLeft: "10%" }}>
               <div className="d-flex">
-                {dataRoom?.center_seat_5?.length > 0 ? (
-                  dataRoom?.center_seat_5.map((item) => (
-                    <Seat lyingHorizontally dataDetailUser={item} />
-                  ))
-                ) : (
-                  <>
-                    {[...Array(5)].map(() => (
-                      <Seat lyingHorizontally />
-                    ))}
-                  </>
-                )}
+                {[...Array(5)].map((_, index) => (
+                  <Seat
+                    lyingHorizontally
+                    dataDetailUser={SeatUser(index + 31, dataRoom)}
+                  />
+                ))}
               </div>
             </div>
             <div>
               <div className="d-flex">
-                {dataRoom?.center_seat_6?.length > 0 ? (
-                  dataRoom?.center_seat_6.map((item) => (
-                    <Seat lyingHorizontally dataDetailUser={item} />
-                  ))
-                ) : (
-                  <>
-                    {[...Array(5)].map(() => (
-                      <Seat lyingHorizontally />
-                    ))}
-                  </>
-                )}
+                {[...Array(5)].map((_, index) => (
+                  <Seat
+                    lyingHorizontally
+                    dataDetailUser={SeatUser(index + 36, dataRoom)}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -306,16 +221,8 @@ export default function FloorSeven() {
               }}
             />
             <div className="d-flex">
-              {dataRoom?.two_seat_last?.length > 0 ? (
-                dataRoom?.two_seat_last.map((item) => (
-                  <Seat horizontal dataDetailUser={item} />
-                ))
-              ) : (
-                <>
-                  <Seat horizontal />
-                  <Seat horizontal />
-                </>
-              )}
+              <Seat horizontal dataDetailUser={SeatUser(41, dataRoom)} />
+              <Seat horizontal dataDetailUser={SeatUser(42, dataRoom)} />
             </div>
           </div>
         </div>
