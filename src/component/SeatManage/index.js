@@ -23,7 +23,7 @@ export default function SeatManage(props) {
           )}
 
           <Chair horizontal />
-          <Table nameUser={dataUser?.user?.nameUser} horizontal />
+          <Table nameUser={dataUser?.name} horizontal />
         </div>
       )}
       {lyingHorizontally && (
@@ -40,7 +40,7 @@ export default function SeatManage(props) {
             />
           )}
 
-          <Table nameUser={dataUser?.user?.nameUser} horizontal />
+          <Table nameUser={dataUser?.name} horizontal />
           <Chair lyingHorizontally />
         </div>
       )}
@@ -58,7 +58,7 @@ export default function SeatManage(props) {
             />
           )}
 
-          <Table nameUser={dataUser?.user?.nameUser} vertical />
+          <Table nameUser={dataUser?.name} vertical />
           <Chair vertical />
         </div>
       )}

@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
-import axios from "axios";
 import SeatManage from "../SeatManage";
-import { API_URL } from "../../config/indext";
+import { getListUserFloorTen } from "../../api/route";
+import { SeatUser } from "../../helpers";
 const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
   setIsloading(true);
-  await axios
-    .get(`${API_URL}/seat/floor10`)
-    .then((res) => {
-      setIsloading(false);
-      const response = res.data;
-      setDataRoom(response);
-    })
-    .catch((error) => {
-      setIsloading(false);
-      console.log(error);
-    });
+  const response = await getListUserFloorTen();
+  setDataRoom(response);
 };
 
 export default function FloorNine() {
@@ -39,58 +30,32 @@ export default function FloorNine() {
       <div className="d-flex flex-column justify-content-between w-75">
         <div className="d-flex justify-content-between">
           <div className="d-flex mt-2 ms-2">
-            {dataRoom?.two_seat_first?.length > 0 ? (
-              dataRoom?.two_seat_first?.map((item) => (
-                <Seat horizontal dataDetailUser={item} />
-              ))
-            ) : (
-              <>
-                {[...Array(2)].map(() => (
-                  <Seat horizontal />
-                ))}
-              </>
-            )}
+            {[...Array(2)].map((_, index) => (
+              <Seat horizontal dataDetailUser={SeatUser(index + 2, dataRoom)} />
+            ))}
           </div>
           <div className="d-flex mt-2 me-2">
-            {dataRoom?.three_seat?.length > 0 ? (
-              dataRoom?.three_seat?.map((item) => (
-                <Seat horizontal dataDetailUser={item} />
-              ))
-            ) : (
-              <>
-                {[...Array(3)].map(() => (
-                  <Seat horizontal />
-                ))}
-              </>
-            )}
+            {[...Array(3)].map((_, index) => (
+              <Seat horizontal dataDetailUser={SeatUser(index + 4, dataRoom)} />
+            ))}
           </div>
         </div>
         <div className="d-flex justify-content-between">
           <div className="d-flex mb-2 ms-2">
-            {dataRoom?.two_seat?.length > 0 ? (
-              dataRoom?.two_seat?.map((item) => (
-                <Seat lyingHorizontally dataDetailUser={item} />
-              ))
-            ) : (
-              <>
-                {[...Array(2)].map(() => (
-                  <Seat lyingHorizontally />
-                ))}
-              </>
-            )}
+            {[...Array(2)].map((_, index) => (
+              <Seat
+                lyingHorizontally
+                dataDetailUser={SeatUser(index + 7, dataRoom)}
+              />
+            ))}
           </div>
           <div className="d-flex mb-2 me-2">
-            {dataRoom?.three_seat_last?.length > 0 ? (
-              dataRoom?.three_seat_last?.map((item) => (
-                <Seat lyingHorizontally dataDetailUser={item} />
-              ))
-            ) : (
-              <>
-                {[...Array(3)].map(() => (
-                  <Seat lyingHorizontally />
-                ))}
-              </>
-            )}
+            {[...Array(3)].map((_, index) => (
+              <Seat
+                lyingHorizontally
+                dataDetailUser={SeatUser(index + 9, dataRoom)}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -118,7 +83,7 @@ export default function FloorNine() {
       </div>
 
       <div className="d-flex justify-content-center align-items-center w-25">
-        <SeatManage vertical dataUser={dataRoom && dataRoom.seat_bod[0]} />
+        <SeatManage vertical dataUser={SeatUser(1, dataRoom)} />
       </div>
     </div>
   );

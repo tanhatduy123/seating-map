@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
-import axios from "axios";
 import SeatManage from "../SeatManage";
-import { API_URL } from "../../config/indext";
+import { getListUserFloorNine } from "../../api/route";
+import { SeatUser } from "../../helpers";
 const getDataFloorNine = async (props) => {
   const { setIsloading, setDataFloorNine } = props;
   setIsloading(true);
-  await axios
-    .get(`${API_URL}/seat/floor9`)
-    .then((res) => {
-      setIsloading(false);
-      const persons = res.data;
-      setDataFloorNine(persons);
-    })
-    .catch((error) => {
-      setIsloading(false);
-      console.log(error);
-    });
+  const response = await getListUserFloorNine();
+  setDataFloorNine(response);
 };
 
 export default function FloorNine() {
@@ -47,7 +38,7 @@ export default function FloorNine() {
             style={{ height: "70%", right: 0, bottom: 0 }}
           />
           <div className="pt-5">
-            <SeatManage horizontal dataUser={dataFloorNine.seat_bod_1} />
+            <SeatManage horizontal dataUser={SeatUser(1, dataFloorNine)} />
           </div>
         </div>
         <div className="room-meeting-bot">
@@ -69,7 +60,10 @@ export default function FloorNine() {
             className="w-100 d-flex flex-column align-items-center"
             style={{ paddingTop: "150px" }}
           >
-            <SeatManage lyingHorizontally dataUser={dataFloorNine.seat_bod_2} />
+            <SeatManage
+              lyingHorizontally
+              dataUser={SeatUser(2, dataFloorNine)}
+            />
           </div>
         </div>
       </div>
@@ -84,17 +78,12 @@ export default function FloorNine() {
             <div className="wardrobe" />
             <div>
               <div className="d-flex">
-                {dataFloorNine?.data_room_9_1?.length > 0 ? (
-                  dataFloorNine?.data_room_9_1?.map((item) => (
-                    <Seat horizontal dataDetailUser={item} />
-                  ))
-                ) : (
-                  <>
-                    {[...Array(7)].map(() => (
-                      <Seat horizontal />
-                    ))}
-                  </>
-                )}
+                {[...Array(7)].map((_, index) => (
+                  <Seat
+                    horizontal
+                    dataDetailUser={SeatUser(index + 3, dataFloorNine)}
+                  />
+                ))}
               </div>
             </div>
             <div className="wardrobe" />
@@ -110,30 +99,20 @@ export default function FloorNine() {
         >
           <div>
             <div className="d-flex">
-              {dataFloorNine?.data_room_9_2?.length > 0 ? (
-                dataFloorNine?.data_room_9_2.map((item) => (
-                  <Seat lyingHorizontally dataDetailUser={item} />
-                ))
-              ) : (
-                <>
-                  {[...Array(6)].map(() => (
-                    <Seat lyingHorizontally />
-                  ))}
-                </>
-              )}
+              {[...Array(6)].map((_, index) => (
+                <Seat
+                  lyingHorizontally
+                  dataDetailUser={SeatUser(index + 10, dataFloorNine)}
+                />
+              ))}
             </div>
             <div className="d-flex">
-              {dataFloorNine?.data_room_9_3?.length > 0 ? (
-                dataFloorNine?.data_room_9_3.map((item) => (
-                  <Seat horizontal dataDetailUser={item} />
-                ))
-              ) : (
-                <>
-                  {[...Array(6)].map(() => (
-                    <Seat horizontal />
-                  ))}
-                </>
-              )}
+              {[...Array(6)].map((_, index) => (
+                <Seat
+                  horizontal
+                  dataDetailUser={SeatUser(index + 16, dataFloorNine)}
+                />
+              ))}
             </div>
           </div>
           <div className="filing-cabinets">
