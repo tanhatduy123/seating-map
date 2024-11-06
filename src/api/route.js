@@ -5,6 +5,21 @@ const UsersFloorSevenCollectionRef = collection(db, "user-floor-seven");
 const UsersFloorEightCollectionRef = collection(db, "user-floor-eight");
 const UsersFloorNineCollectionRef = collection(db, "user-floor-nine");
 const UsersFloorTenCollectionRef = collection(db, "user-floor-ten");
+const UsersReceptionistCollectionRef = collection(db, "user-letan");
+export const getListUserReceptionist = async () => {
+  try {
+    const data = await getDocs(UsersReceptionistCollectionRef);
+
+    const filterData = data.docs.map((item) => ({
+      id: item.id,
+      ...item.data(),
+    }));
+    return filterData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getListUserFloorSix = async () => {
   try {
     const data = await getDocs(UsersFloorSixCollectionRef);

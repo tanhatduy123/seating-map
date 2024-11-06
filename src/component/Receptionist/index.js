@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ModalAddInfo from "../Modal";
-import axios from "axios";
-import { API_URL } from "../../config/indext";
+import { getListUserReceptionist } from "../../api/route";
 const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
   setIsloading(true);
-  await axios
-    .get(`${API_URL}/seat/floor-receptionist`)
-    .then((res) => {
-      setIsloading(false);
-      const response = res.data.data;
-      setDataRoom(response);
-    })
-    .catch((error) => {
-      setIsloading(false);
-      console.log(error);
-    });
+  const response = await getListUserReceptionist();
+  setDataRoom(response[0]);
 };
 
 export default function Receptionist() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dataRoom, setDataRoom] = useState([]);
+  const [dataRoom, setDataRoom] = useState({});
   const [isLoading, setIsloading] = useState(false);
   useEffect(() => {
     if (!isLoading) {
@@ -28,6 +18,7 @@ export default function Receptionist() {
     }
     // eslint-disable-next-line
   }, []);
+
   return (
     <div
       className="container-floor"
@@ -49,7 +40,7 @@ export default function Receptionist() {
                 textAlign: "center",
               }}
             >
-              {dataRoom?.user?.nameUser}
+              {dataRoom?.name}
             </p>
           </div>
         </div>
