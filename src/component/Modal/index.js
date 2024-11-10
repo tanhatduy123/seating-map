@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Modal } from "antd";
-import axios from "axios";
-import { API_URL } from "../../config/indext";
+
 import ModalChange from "./ModalChange";
 import { updateUser, UploadImges } from "../../api/route";
 
@@ -42,19 +41,25 @@ const APIAddUser = async (props) => {
   }
 };
 const APIDelete = async (props) => {
-  const { setIsloading, id } = props;
+  const { setIsloading, dataSubmit, floor } = props;
   setIsloading(true);
-  await axios
-    .delete(`${API_URL}/seat/delete/${id}`)
-    .then((res) => {
-      console.log(res);
-      setIsloading(false);
-      window.location.reload();
-    })
-    .catch((error) => {
-      setIsloading(false);
-      console.log(error);
-    });
+  const params = {
+    id: dataSubmit?.id,
+    avatar: "",
+    name: "",
+    code: "",
+    part: "",
+    phone: "",
+    seat: dataSubmit?.seat,
+  };
+  const response = await updateUser(floor, params);
+  if (response?.status === 200) {
+    setIsloading(false);
+    window.location.reload();
+  } else {
+    setIsloading(false);
+    window.location.reload();
+  }
 };
 export default function ModalAddInfo(props) {
   const admin = sessionStorage.getItem("admin");
@@ -81,7 +86,13 @@ export default function ModalAddInfo(props) {
 
   const HandleDelete = (id) => {
     if (id) {
-      APIDelete({ setIsloading, id });
+      APIDelete({
+        setIsloading,
+        dataSubmit: {
+          ...dataSubmit,
+          id: dataDetailUser?.id,
+        },
+      });
     }
   };
   useEffect(() => {
@@ -159,7 +170,7 @@ export default function ModalAddInfo(props) {
             <Button
               onClick={() => {
                 if (admin) {
-                  HandleDelete(dataDetailUser?.idSeat);
+                  HandleDelete(dataDetailUser?.id);
                 }
               }}
             >
@@ -298,14 +309,14 @@ export default function ModalAddInfo(props) {
           </div>
         </div>
       </Modal>
-      {/* {openModalChange && (
+      {openModalChange && (
         <ModalChange
           openModalChange={openModalChange}
           setOpenModalChange={setOpenModalChange}
           idRoom={dataDetailUser?.idRoom}
           idSeatOld={dataDetailUser?.idSeat}
         />
-      )} */}
+      )}
     </>
   );
 }

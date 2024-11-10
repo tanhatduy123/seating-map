@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import Chair from "./Chair";
 import Table from "./Table";
 import ModalAddInfo from "../Modal";
+import { useLocation } from "react-router-dom";
 
 export default function SeatManage(props) {
   const { horizontal, vertical, lyingHorizontally, dataUser } = props;
+  const location = useLocation();
+  const path = location?.pathname?.slice(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log("dataUser", dataUser);
   return (
     <div className="w-100 d-flex flex-column align-items-center">
       {horizontal && (
@@ -14,9 +18,9 @@ export default function SeatManage(props) {
           onClick={() => setIsModalOpen(true)}
           style={{ cursor: "pointer" }}
         >
-          {dataUser?.user?.avatar && (
+          {dataUser?.avatar && (
             <img
-              src={`https://drive.google.com/thumbnail?id=${dataUser?.user?.avatar}`}
+              src={dataUser?.avatar}
               className="img-avatar-bod-horizontal"
               alt="avatar"
             />
@@ -32,9 +36,9 @@ export default function SeatManage(props) {
           onClick={() => setIsModalOpen(true)}
           style={{ cursor: "pointer" }}
         >
-          {dataUser?.user?.avatar && (
+          {dataUser?.avatar && (
             <img
-              src={`https://drive.google.com/thumbnail?id=${dataUser?.user?.avatar}`}
+              src={dataUser?.avatar}
               className="img-avatar-bod-lyingHorizontally"
               alt="avatar"
             />
@@ -50,9 +54,9 @@ export default function SeatManage(props) {
           onClick={() => setIsModalOpen(true)}
           style={{ cursor: "pointer" }}
         >
-          {dataUser?.user?.avatar && (
+          {dataUser?.avatar && (
             <img
-              src={`https://drive.google.com/thumbnail?id=${dataUser?.user?.avatar}`}
+              src={dataUser?.avatar}
               className="img-avatar-bod-vertical"
               alt="avatar"
             />
@@ -63,6 +67,7 @@ export default function SeatManage(props) {
         </div>
       )}
       <ModalAddInfo
+        floor={path}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         dataDetailUser={dataUser}

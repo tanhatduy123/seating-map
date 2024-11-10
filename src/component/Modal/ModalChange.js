@@ -2,30 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Modal, Select, Button } from "antd";
 import axios from "axios";
 import { API_URL } from "../../config/indext";
-const ApiGetAllFloor = async (props) => {
-  const { setDataFloor, setFloors } = props;
-  try {
-    await axios.get(`${API_URL}/floor`).then((res) => {
-      if (res) {
-        setDataFloor(res.data.data);
-      }
-    });
-  } catch (err) {
-    console.log(err);
+import { dataAllFloor } from "../../helpers/dataHelper";
+import { getListUserFloorTranNao } from "../../api/route";
+
+const APIGetListSeatInFloor = async ({ id, setDataFloor }) => {
+  if (id === 1) {
+    const response = await getListUserFloorTranNao();
+    if (response.status === 200) {
+      console.log("response", response);
+    }
   }
 };
-const getLolcalFoor = async (props) => {
-  const { floors, setDataSeatFloor } = props;
-  try {
-    await axios.get(`${API_URL}/seat/base-on-floor/${floors}`).then((res) => {
-      if (res?.data?.status === 1) {
-        setDataSeatFloor(res?.data?.allSeat);
-      }
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+
 const APIChangeSeat = async (props) => {
   const { idSeatOld, idSeatNew, handleCancel } = props;
   const params = {
@@ -54,14 +42,14 @@ const ModalChange = (props) => {
     setOpenModalChange(false);
   };
 
-  useEffect(() => {
-    ApiGetAllFloor({ setFloors, setDataFloor });
-  }, []);
-  useEffect(() => {
-    if (floors) {
-      getLolcalFoor({ floors, setDataSeatFloor });
-    }
-  }, [floors]);
+  // useEffect(() => {
+  //   ApiGetAllFloor({ setFloors, setDataFloor });
+  // }, []);
+  // useEffect(() => {
+  //   if (floors) {
+  //     getLolcalFoor({ floors, setDataSeatFloor });
+  //   }
+  // }, [floors]);
   const handleChangeSeat = () => {
     APIChangeSeat({
       idSeatOld: idSeatOld,
@@ -103,12 +91,7 @@ const ModalChange = (props) => {
           className="w-50"
           placeholder="Chọn Tầng"
           value={dataFloor.nameFloor}
-          options={dataFloor.map((element) => {
-            return {
-              value: element.idFloor,
-              label: element.nameFloor,
-            };
-          })}
+          options={dataAllFloor}
           onChange={(value) => setFloors(value)}
         />
         {floors && dataSeatFloor.length > 0 && (
