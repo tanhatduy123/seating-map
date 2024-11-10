@@ -18,7 +18,6 @@ export default function Receptionist() {
     }
     // eslint-disable-next-line
   }, []);
-
   return (
     <div
       className="container-floor"
@@ -45,9 +44,9 @@ export default function Receptionist() {
           </div>
         </div>
         <div className="position-relative">
-          {dataRoom?.user?.avatar && (
+          {dataRoom?.avatar && (
             <img
-              src={`https://drive.google.com/thumbnail?id=${dataRoom?.user?.avatar}`}
+              src={dataRoom?.avatar}
               className="img-avatar-bod-horizontal"
               alt="avatar"
             />
@@ -59,6 +58,7 @@ export default function Receptionist() {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         dataDetailUser={dataRoom}
+        floor="receptionist"
       />
     </div>
   );

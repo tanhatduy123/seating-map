@@ -4,6 +4,7 @@ import HorizontalChair from "./Chair/HorizontalChair";
 import VerticalTable from "./Table/VerticalTable";
 import VerticalChair from "./Chair/VerticalChair";
 import ModalAddInfo from "../Modal";
+import { useLocation } from "react-router-dom";
 
 export default function Seat(props) {
   const {
@@ -14,6 +15,8 @@ export default function Seat(props) {
     width,
     dataDetailUser,
   } = props;
+  const location = useLocation();
+  const path = location?.pathname?.slice(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="container-seat">
@@ -24,9 +27,9 @@ export default function Seat(props) {
             setIsModalOpen(true);
           }}
         >
-          {dataDetailUser?.user?.avatar && (
+          {dataDetailUser?.avatar && (
             <img
-              src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
+              src={dataDetailUser?.avatar}
               className="img-avatar-horizontal"
               alt="avatar"
             />
@@ -43,9 +46,9 @@ export default function Seat(props) {
             setIsModalOpen(true);
           }}
         >
-          {dataDetailUser?.user?.avatar && (
+          {dataDetailUser?.avatar && (
             <img
-              src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
+              src={dataDetailUser?.avatar}
               className="img-avatar-vertical"
               alt="avatar"
             />
@@ -62,9 +65,9 @@ export default function Seat(props) {
             setIsModalOpen(true);
           }}
         >
-          {dataDetailUser?.user?.avatar && (
+          {dataDetailUser?.avatar && (
             <img
-              src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
+              src={dataDetailUser?.avatar}
               className="img-avatar-lyingHorizontally"
               alt="avatar"
             />
@@ -81,9 +84,9 @@ export default function Seat(props) {
             setIsModalOpen(true);
           }}
         >
-          {dataDetailUser?.user?.avatar && (
+          {dataDetailUser?.avatar && (
             <img
-              src={`https://drive.google.com/thumbnail?id=${dataDetailUser?.user?.avatar}`}
+              src={dataDetailUser?.avatar}
               className="img-avatar-lyingVertically"
               alt="avatar"
             />
@@ -94,6 +97,7 @@ export default function Seat(props) {
         </div>
       )}
       <ModalAddInfo
+        floor={path}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         dataDetailUser={dataDetailUser}

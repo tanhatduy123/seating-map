@@ -3,34 +3,43 @@ import { Button, Input, Modal } from "antd";
 import axios from "axios";
 import { API_URL } from "../../config/indext";
 import ModalChange from "./ModalChange";
+import { updateUser, UploadImges } from "../../api/route";
+
+const APIUpload = async (props) => {
+  const { base64 } = props;
+  const res = await UploadImges(base64);
+  return res;
+};
 
 const APIAddUser = async (props) => {
-  const { dataSubmit, setIsModalOpen, setISsubmit, setIsloading } = props;
-  const id = dataSubmit?.idSeat;
-  // Tạo formData
-  const formData = new FormData();
-  formData.append("idSeat", id);
-  formData.append("nameUser", dataSubmit.name);
-  formData.append("msnv", dataSubmit.code);
-  formData.append("title", dataSubmit.part);
-  formData.append("phone", dataSubmit.phone);
-  formData.append("idUser", dataSubmit.idUser || null);
-  formData.append("avatar", dataSubmit.imageAvatar); // Thêm hình ảnh vào formData
+  const { dataSubmit, floor, setIsModalOpen, setISsubmit, setIsloading } =
+    props;
+  let resImg = {};
+  if (dataSubmit?.base64Img) {
+    resImg = await APIUpload({ base64: dataSubmit?.base64Img });
+  }
+  const params = {
+    id: dataSubmit?.id,
+    avatar: resImg?.url || dataSubmit?.avatar,
+    name: dataSubmit?.name,
+    code: dataSubmit?.code,
+    part: dataSubmit?.part,
+    phone: dataSubmit?.phone,
+    seat: dataSubmit?.seat,
+  };
 
-  setIsloading(true);
-  await axios
-    .post(`${API_URL}/seat/seat-change/${id}`, formData)
-    .then((res) => {
-      setIsModalOpen(false);
-      setISsubmit(false);
-      setIsloading(false);
-      window.location.reload();
-    })
-    .catch((error) => {
-      console.log(error);
-      setIsloading(false);
-      setIsModalOpen(false);
-    });
+  const response = await updateUser(floor, params);
+  if (response.status === 200) {
+    setIsModalOpen(false);
+    setISsubmit(false);
+    setIsloading(false);
+    window.location.reload();
+  } else {
+    setIsModalOpen(false);
+    setISsubmit(false);
+    setIsloading(false);
+    window.location.reload();
+  }
 };
 const APIDelete = async (props) => {
   const { setIsloading, id } = props;
@@ -49,17 +58,15 @@ const APIDelete = async (props) => {
 };
 export default function ModalAddInfo(props) {
   const admin = sessionStorage.getItem("admin");
-  const { isModalOpen, setIsModalOpen, dataDetailUser = {} } = props;
+  const { isModalOpen, setIsModalOpen, dataDetailUser = {}, floor } = props;
   const imgRef = useRef(null);
   const [dataSubmit, setdataSubmit] = useState({});
-  const [imageChange, setImageChange] = useState(false);
   const [errorValidate, setErrorValidate] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const [isSubmit, setISsubmit] = useState(false);
   const [openModalChange, setOpenModalChange] = useState(false);
+  const [base64Img, setBase64Img] = useState("");
   const handleOk = () => {
-    // setIsModalOpen(false);
-    console.log(123);
     HandleSubmit();
     setISsubmit(true);
   };
@@ -77,12 +84,11 @@ export default function ModalAddInfo(props) {
       APIDelete({ setIsloading, id });
     }
   };
-
   useEffect(() => {
     if (dataDetailUser && Object.keys(dataDetailUser).length > 0) {
       setdataSubmit({
         ...dataSubmit,
-        imageAvatar: dataDetailUser?.avatar,
+        avatar: dataDetailUser?.avatar,
         name: dataDetailUser?.name,
         part: dataDetailUser?.part,
         phone: dataDetailUser?.phone,
@@ -95,10 +101,11 @@ export default function ModalAddInfo(props) {
   useEffect(() => {
     if (errorValidate && Object.keys(errorValidate).length === 0 && isSubmit) {
       APIAddUser({
+        floor: floor,
         dataSubmit: {
           ...dataSubmit,
-          idSeat: dataDetailUser?.idSeat,
-          idUser: dataDetailUser?.user?.idUser || null,
+          id: dataDetailUser?.id,
+          base64Img: base64Img,
         },
         setIsModalOpen,
         setISsubmit,
@@ -133,7 +140,6 @@ export default function ModalAddInfo(props) {
     }
     setErrorValidate(error);
   };
-
   return (
     <>
       <Modal
@@ -179,12 +185,12 @@ export default function ModalAddInfo(props) {
             className="circle"
             style={{ borderColor: errorValidate.image && "#dc3545" }}
           >
-            {dataSubmit?.imageAvatar ? (
+            {dataSubmit?.imageAvatar || dataDetailUser?.avatar ? (
               <img
                 src={
-                  imageChange
+                  base64Img
                     ? URL.createObjectURL(dataSubmit.imageAvatar)
-                    : `https://drive.google.com/thumbnail?id=${dataSubmit?.imageAvatar}`
+                    : dataDetailUser?.avatar
                 }
                 alt=""
                 onClick={() => imgRef.current.click()}
@@ -192,7 +198,12 @@ export default function ModalAddInfo(props) {
               />
             ) : (
               <img
-                src={require("../../assets/user-defaut.png")}
+                src={
+                  base64Img
+                    ? URL.createObjectURL(dataSubmit.imageAvatar)
+                    : dataDetailUser?.avatar ||
+                      require("../../assets/user-defaut.png")
+                }
                 alt=""
                 onClick={() => imgRef.current.click()}
                 style={{ cursor: "pointer" }}
@@ -204,11 +215,20 @@ export default function ModalAddInfo(props) {
             type="file"
             hidden
             onChange={(event) => {
-              setImageChange(true);
-              setdataSubmit({
-                ...dataSubmit,
-                imageAvatar: event.target.files[0],
-              });
+              const file = event.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  const base64Image = reader.result;
+                  setBase64Img(base64Image);
+                  // Cập nhật trạng thái hoặc thực hiện hành động với base64
+                  setdataSubmit({
+                    ...dataSubmit,
+                    imageAvatar: file,
+                  });
+                };
+                reader.readAsDataURL(file); // Đọc tệp dưới dạng base64
+              }
             }}
             readOnly={!admin}
           />
@@ -278,14 +298,14 @@ export default function ModalAddInfo(props) {
           </div>
         </div>
       </Modal>
-      {openModalChange && (
+      {/* {openModalChange && (
         <ModalChange
           openModalChange={openModalChange}
           setOpenModalChange={setOpenModalChange}
           idRoom={dataDetailUser?.idRoom}
           idSeatOld={dataDetailUser?.idSeat}
         />
-      )}
+      )} */}
     </>
   );
 }
