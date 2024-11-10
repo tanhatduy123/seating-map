@@ -1,15 +1,97 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Select, Button } from "antd";
-import axios from "axios";
-import { API_URL } from "../../config/indext";
+
 import { dataAllFloor } from "../../helpers/dataHelper";
-import { getListUserFloorTranNao } from "../../api/route";
+import {
+  getListUserFloorEight,
+  getListUserFloorNine,
+  getListUserFloorSeven,
+  getListUserFloorSix,
+  getListUserFloorTen,
+  getListUserFloorTranNao,
+} from "../../api/route";
 
 const APIGetListSeatInFloor = async ({ id, setDataSeatFloor }) => {
   if (id == 1) {
     const response = await getListUserFloorTranNao();
     if (response && response.length > 0) {
       const dataParser = response
+        .filter((item) => item.seat)
+        .sort((a, b) => a.id_seat - b.id_seat)
+        .map((item) => {
+          return {
+            id: item.id_seat,
+            value: item.seat,
+          };
+        });
+      setDataSeatFloor(dataParser);
+    }
+  }
+  if (id == 2) {
+    const response = await getListUserFloorSix();
+    if (response && response.length > 0) {
+      const dataParser = response
+        .filter((item) => item.seat)
+        .sort((a, b) => a.id_seat - b.id_seat)
+        .map((item) => {
+          return {
+            id: item.id_seat,
+            value: item.seat,
+          };
+        });
+      setDataSeatFloor(dataParser);
+    }
+  }
+  if (id == 3) {
+    const response = await getListUserFloorSeven();
+    if (response && response.length > 0) {
+      const dataParser = response
+        .filter((item) => item.seat)
+        .sort((a, b) => a.id_seat - b.id_seat)
+        .map((item) => {
+          return {
+            id: item.id_seat,
+            value: item.seat,
+          };
+        });
+      setDataSeatFloor(dataParser);
+    }
+  }
+  if (id == 4) {
+    const response = await getListUserFloorEight();
+    if (response && response.length > 0) {
+      const dataParser = response
+        .filter((item) => item.seat)
+        .sort((a, b) => a.id_seat - b.id_seat)
+        .map((item) => {
+          return {
+            id: item.id_seat,
+            value: item.seat,
+          };
+        });
+      setDataSeatFloor(dataParser);
+    }
+  }
+  if (id == 5) {
+    const response = await getListUserFloorNine();
+    if (response && response.length > 0) {
+      const dataParser = response
+        .filter((item) => item.seat)
+        .sort((a, b) => a.id_seat - b.id_seat)
+        .map((item) => {
+          return {
+            id: item.id_seat,
+            value: item.seat,
+          };
+        });
+      setDataSeatFloor(dataParser);
+    }
+  }
+  if (id == 6) {
+    const response = await getListUserFloorTen();
+    if (response && response.length > 0) {
+      const dataParser = response
+        .filter((item) => item.seat)
         .sort((a, b) => a.id_seat - b.id_seat)
         .map((item) => {
           return {
@@ -22,27 +104,9 @@ const APIGetListSeatInFloor = async ({ id, setDataSeatFloor }) => {
   }
 };
 
-const APIChangeSeat = async (props) => {
-  const { idSeatOld, idSeatNew, handleCancel } = props;
-  const params = {
-    idOldSeat: idSeatOld,
-    idNewSeat: idSeatNew,
-  };
-  try {
-    await axios.put(`${API_URL}/seat/change-seat/`, params).then((res) => {
-      console.log("res", res);
-      if (res?.data?.status === 1) {
-        handleCancel(false);
-        window.location.reload();
-      }
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const APIChangeSeat = async (props) => {};
 const ModalChange = (props) => {
   const { setOpenModalChange, openModalChange, idSeatOld } = props;
-  const [dataFloor, setDataFloor] = useState([]);
   const [floors, setFloors] = useState(null);
   const [dataSeatFloor, setDataSeatFloor] = useState([]);
   const [valueFloor, setValueFloor] = useState({});
@@ -57,13 +121,13 @@ const ModalChange = (props) => {
       });
     }
   }, [floors]);
-  const handleChangeSeat = () => {
-    APIChangeSeat({
-      idSeatOld: idSeatOld,
-      idSeatNew: valueFloor,
-      handleCancel,
-    });
-  };
+  // const handleChangeSeat = () => {
+  //   APIChangeSeat({
+  //     idSeatOld: idSeatOld,
+  //     idSeatNew: valueFloor,
+  //     handleCancel,
+  //   });
+  // };
   console.log("dataSeatFloor", dataSeatFloor);
   return (
     <Modal
@@ -81,7 +145,7 @@ const ModalChange = (props) => {
           <Button onClick={handleCancel}>Hủy</Button>
 
           <Button
-            onClick={handleChangeSeat}
+            // onClick={handleChangeSeat}
             type="primary"
             // style={{ backgroundColor: "#ED7F11" }}
           >
@@ -97,7 +161,7 @@ const ModalChange = (props) => {
         <Select
           className="w-50"
           placeholder="Chọn Tầng"
-          value={dataFloor.nameFloor}
+          value={floors}
           options={dataAllFloor}
           onChange={(value) => setFloors(value)}
         />

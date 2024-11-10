@@ -152,7 +152,6 @@ export default function ModalAddInfo(props) {
     }
     setErrorValidate(error);
   };
-  console.log("floor", floor);
   return (
     <>
       <Modal

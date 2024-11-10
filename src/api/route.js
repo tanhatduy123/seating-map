@@ -214,3 +214,7 @@ export const UploadImges = async (base64) => {
     return null; // Trả về null trong trường hợp có lỗi
   }
 };
+
+export const APIChangeSeat = async (props) => {
+  const { idCurrent, idChange, floorCurrent, floorChange } = props;
+};
