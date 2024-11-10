@@ -5,11 +5,19 @@ import { API_URL } from "../../config/indext";
 import { dataAllFloor } from "../../helpers/dataHelper";
 import { getListUserFloorTranNao } from "../../api/route";
 
-const APIGetListSeatInFloor = async ({ id, setDataFloor }) => {
-  if (id === 1) {
+const APIGetListSeatInFloor = async ({ id, setDataSeatFloor }) => {
+  if (id == 1) {
     const response = await getListUserFloorTranNao();
-    if (response.status === 200) {
-      console.log("response", response);
+    if (response && response.length > 0) {
+      const dataParser = response
+        .sort((a, b) => a.id_seat - b.id_seat)
+        .map((item) => {
+          return {
+            id: item.id_seat,
+            value: item.seat,
+          };
+        });
+      setDataSeatFloor(dataParser);
     }
   }
 };
@@ -41,15 +49,14 @@ const ModalChange = (props) => {
   const handleCancel = () => {
     setOpenModalChange(false);
   };
-
-  // useEffect(() => {
-  //   ApiGetAllFloor({ setFloors, setDataFloor });
-  // }, []);
-  // useEffect(() => {
-  //   if (floors) {
-  //     getLolcalFoor({ floors, setDataSeatFloor });
-  //   }
-  // }, [floors]);
+  useEffect(() => {
+    if (floors) {
+      APIGetListSeatInFloor({
+        id: dataAllFloor.find((item) => item.value === floors)?.id,
+        setDataSeatFloor,
+      });
+    }
+  }, [floors]);
   const handleChangeSeat = () => {
     APIChangeSeat({
       idSeatOld: idSeatOld,
@@ -57,7 +64,7 @@ const ModalChange = (props) => {
       handleCancel,
     });
   };
-
+  console.log("dataSeatFloor", dataSeatFloor);
   return (
     <Modal
       open={openModalChange}
@@ -99,12 +106,7 @@ const ModalChange = (props) => {
             className="w-50 ms-2"
             placeholder="Vị Trí"
             value={dataSeatFloor.nameSeat}
-            options={dataSeatFloor.map((element) => {
-              return {
-                value: element.idSeat,
-                label: element.nameSeat,
-              };
-            })}
+            options={dataSeatFloor}
             onChange={(value) => setValueFloor(value)}
           />
         )}

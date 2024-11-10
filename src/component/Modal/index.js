@@ -87,6 +87,7 @@ export default function ModalAddInfo(props) {
   const HandleDelete = (id) => {
     if (id) {
       APIDelete({
+        floor: floor,
         setIsloading,
         dataSubmit: {
           ...dataSubmit,
@@ -151,6 +152,7 @@ export default function ModalAddInfo(props) {
     }
     setErrorValidate(error);
   };
+  console.log("floor", floor);
   return (
     <>
       <Modal

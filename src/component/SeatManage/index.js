@@ -9,7 +9,6 @@ export default function SeatManage(props) {
   const location = useLocation();
   const path = location?.pathname?.slice(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log("dataUser", dataUser);
   return (
     <div className="w-100 d-flex flex-column align-items-center">
       {horizontal && (
