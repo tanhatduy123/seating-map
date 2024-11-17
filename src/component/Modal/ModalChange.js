@@ -117,7 +117,7 @@ const APIChangeSeat = async (props) => {
   };
   const response = await ChangeSeat(params);
   if (response.status === 200) {
-    // window.location.reload();
+    window.location.reload();
   }
 };
 const ModalChange = (props) => {
