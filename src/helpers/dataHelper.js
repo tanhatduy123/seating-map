@@ -1,26 +1,32 @@
 export const dataAllFloor = [
   {
     id: 1,
-    value: "VP Trần Não",
+    label: "VP Trần Não",
+    value: "tran-nao",
   },
   {
     id: 2,
-    value: "Tầng 6",
+    label: "Tầng 6",
+    value: "floor-six",
   },
   {
     id: 3,
-    value: "Tầng 7",
+    label: "Tầng 7",
+    value: "floor-seven",
   },
   {
     id: 4,
-    value: "Tầng 8",
+    label: "Tầng 8",
+    value: "floor-eighth",
   },
   {
     id: 5,
-    value: "Tầng 9",
+    label: "Tầng 9",
+    value: "floor-ninth",
   },
   {
     id: 6,
-    value: "Tầng 10",
+    label: "Tầng 10",
+    value: "floor-ten",
   },
 ];

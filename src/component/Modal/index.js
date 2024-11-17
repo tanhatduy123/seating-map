@@ -314,8 +314,8 @@ export default function ModalAddInfo(props) {
         <ModalChange
           openModalChange={openModalChange}
           setOpenModalChange={setOpenModalChange}
-          idRoom={dataDetailUser?.idRoom}
-          idSeatOld={dataDetailUser?.idSeat}
+          roomCurrent={floor}
+          idSeatOld={dataDetailUser?.id}
         />
       )}
     </>

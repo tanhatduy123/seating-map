@@ -1,6 +1,7 @@
 import { db, storage } from "../firebase/config";
 import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { dataAllFloor } from "../helpers/dataHelper";
 const UsersFloorSixCollectionRef = collection(db, "user-floor-six");
 const UsersFloorSevenCollectionRef = collection(db, "user-floor-seven");
 const UsersFloorEightCollectionRef = collection(db, "user-floor-eight");
@@ -215,6 +216,88 @@ export const UploadImges = async (base64) => {
   }
 };
 
-export const APIChangeSeat = async (props) => {
+export const ChangeSeat = async (props) => {
   const { idCurrent, idChange, floorCurrent, floorChange } = props;
+  let dataUserCurrent = {};
+  let dataUserChange = {};
+  // get Detail User Room Current
+  if (idCurrent && floorCurrent) {
+    const id = dataAllFloor.find((item) => item.value === floorCurrent)?.id;
+    if (id == 1) {
+      const response = await getListUserFloorTranNao();
+      dataUserCurrent = response.find((item) => item.id === idCurrent);
+    }
+    if (id == 2) {
+      const response = await getListUserFloorSix();
+      dataUserCurrent = response.find((item) => item.id === idCurrent);
+    }
+    if (id == 3) {
+      const response = await getListUserFloorSeven();
+      dataUserCurrent = response.find((item) => item.id === idCurrent);
+    }
+    if (id == 4) {
+      const response = await getListUserFloorEight();
+      dataUserCurrent = response.find((item) => item.id === idCurrent);
+    }
+    if (id == 5) {
+      const response = await getListUserFloorNine();
+      dataUserCurrent = response.find((item) => item.id === idCurrent);
+    }
+    if (id == 6) {
+      const response = await getListUserFloorTen();
+      dataUserCurrent = response.find((item) => item.id === idCurrent);
+    }
+  }
+  //get Detail User Change
+  if (idChange && floorChange) {
+    const id = dataAllFloor.find((item) => item.value === idChange)?.id;
+    if (id == 1) {
+      const response = await getListUserFloorTranNao();
+      dataUserChange = response.find((item) => item.seat === floorChange);
+    }
+    if (id == 2) {
+      const response = await getListUserFloorSix();
+      dataUserChange = response.find((item) => item.seat === floorChange);
+    }
+    if (id == 3) {
+      const response = await getListUserFloorSeven();
+      dataUserChange = response.find((item) => item.seat === floorChange);
+    }
+    if (id == 4) {
+      const response = await getListUserFloorEight();
+      dataUserChange = response.find((item) => item.seat === floorChange);
+    }
+    if (id == 5) {
+      const response = await getListUserFloorNine();
+      dataUserChange = response.find((item) => item.seat === floorChange);
+    }
+    if (id == 6) {
+      const response = await getListUserFloorTen();
+      dataUserChange = response.find((item) => item.seat === floorChange);
+    }
+  }
+  if (dataUserCurrent && Object.keys(dataUserCurrent).length > 0) {
+    const dataUser = {
+      ...dataUserCurrent,
+      id: dataUserChange?.id,
+      id_seat: dataUserChange?.id_seat,
+      seat: dataUserChange?.seat,
+    };
+
+    await updateUser(idChange, dataUser);
+  }
+  if (dataUserChange && Object.keys(dataUserChange).length > 0) {
+    const dataUser = {
+      ...dataUserChange,
+      id: dataUserCurrent?.id,
+      id_seat: dataUserCurrent?.id_seat,
+      seat: dataUserCurrent?.seat,
+    };
+
+    await updateUser(floorCurrent, dataUser);
+  }
+  return {
+    status: 200,
+    message: "Update success",
+  };
 };

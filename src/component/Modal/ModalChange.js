@@ -3,6 +3,7 @@ import { Modal, Select, Button } from "antd";
 
 import { dataAllFloor } from "../../helpers/dataHelper";
 import {
+  ChangeSeat,
   getListUserFloorEight,
   getListUserFloorNine,
   getListUserFloorSeven,
@@ -53,7 +54,8 @@ const APIGetListSeatInFloor = async ({ id, setDataSeatFloor }) => {
             id: item.id_seat,
             value: item.seat,
           };
-        });
+        })
+        .sort((a, b) => a.id - b.id);
       setDataSeatFloor(dataParser);
     }
   }
@@ -104,9 +106,22 @@ const APIGetListSeatInFloor = async ({ id, setDataSeatFloor }) => {
   }
 };
 
-const APIChangeSeat = async (props) => {};
+const APIChangeSeat = async (props) => {
+  const { idCurrent, floorCurrent, valueFloorChange, idRoomChange } = props;
+
+  const params = {
+    idCurrent: idCurrent,
+    idChange: idRoomChange,
+    floorCurrent: floorCurrent,
+    floorChange: valueFloorChange,
+  };
+  const response = await ChangeSeat(params);
+  if (response.status === 200) {
+    // window.location.reload();
+  }
+};
 const ModalChange = (props) => {
-  const { setOpenModalChange, openModalChange, idSeatOld } = props;
+  const { setOpenModalChange, openModalChange, idSeatOld, roomCurrent } = props;
   const [floors, setFloors] = useState(null);
   const [dataSeatFloor, setDataSeatFloor] = useState([]);
   const [valueFloor, setValueFloor] = useState({});
@@ -121,14 +136,14 @@ const ModalChange = (props) => {
       });
     }
   }, [floors]);
-  // const handleChangeSeat = () => {
-  //   APIChangeSeat({
-  //     idSeatOld: idSeatOld,
-  //     idSeatNew: valueFloor,
-  //     handleCancel,
-  //   });
-  // };
-  console.log("dataSeatFloor", dataSeatFloor);
+  const handleChangeSeat = () => {
+    APIChangeSeat({
+      idCurrent: idSeatOld,
+      floorCurrent: roomCurrent,
+      valueFloorChange: valueFloor,
+      idRoomChange: floors,
+    });
+  };
   return (
     <Modal
       open={openModalChange}
@@ -145,7 +160,7 @@ const ModalChange = (props) => {
           <Button onClick={handleCancel}>Hủy</Button>
 
           <Button
-            // onClick={handleChangeSeat}
+            onClick={handleChangeSeat}
             type="primary"
             // style={{ backgroundColor: "#ED7F11" }}
           >
