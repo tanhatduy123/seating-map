@@ -50,18 +50,30 @@ export default function Login() {
   }, [errorValidate, dataLogin, router, isLogin]);
   const validate = (data) => {
     const error = {};
-    if (
-      !data.user ||
-      (data.user !== dataLoginDefault.user && data.user !== dataAdmin.user)
-    ) {
+    if (!data.user) {
       error.user = true;
     }
-    if (
-      !data.password ||
-      (data.password !== dataLoginDefault.password &&
-        data.password !== dataAdmin.password)
-    ) {
+    if (!data.password) {
       error.password = true;
+    }
+    if (data.user && data.password) {
+      if (data.user === dataLoginDefault.user && data.user !== dataAdmin.user) {
+        if (data.password !== dataLoginDefault.password) {
+          error.password = true;
+        }
+      } else if (
+        data.user !== dataLoginDefault.user &&
+        data.user === dataAdmin.user
+      ) {
+        if (data.password !== dataAdmin.password) {
+          error.password = true;
+        }
+      } else if (
+        data.user !== dataLoginDefault.user &&
+        data.user !== dataAdmin.user
+      ) {
+        error.user = true;
+      }
     }
     setErrorValidate(error);
   };
