@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Input, Modal } from "antd";
+import { Button, Input, Modal, Select } from "antd";
 
 import ModalChange from "./ModalChange";
-import { updateUser, UploadImges } from "../../api/route";
+import { getListAllUser, updateUser, UploadImges } from "../../api/route";
+
+const APIGetListUserCompany = async ({ setDataListUserCompany }) => {
+  const response = await getListAllUser();
+  setDataListUserCompany(response);
+};
 
 const APIUpload = async (props) => {
   const { base64 } = props;
@@ -65,12 +70,17 @@ export default function ModalAddInfo(props) {
   const admin = sessionStorage.getItem("admin");
   const { isModalOpen, setIsModalOpen, dataDetailUser = {}, floor } = props;
   const imgRef = useRef(null);
+  const [dataListUserCompany, setDataListUserCompany] = useState([]);
   const [dataSubmit, setdataSubmit] = useState({});
   const [errorValidate, setErrorValidate] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const [isSubmit, setISsubmit] = useState(false);
   const [openModalChange, setOpenModalChange] = useState(false);
   const [base64Img, setBase64Img] = useState("");
+
+  useEffect(() => {
+    APIGetListUserCompany({ setDataListUserCompany });
+  }, []);
   const handleOk = () => {
     HandleSubmit();
     setISsubmit(true);
@@ -152,6 +162,7 @@ export default function ModalAddInfo(props) {
     }
     setErrorValidate(error);
   };
+
   return (
     <>
       <Modal
@@ -201,8 +212,10 @@ export default function ModalAddInfo(props) {
               <img
                 src={
                   base64Img
-                    ? URL.createObjectURL(dataSubmit.imageAvatar)
-                    : dataDetailUser?.avatar
+                    ? URL.createObjectURL(dataSubmit?.imageAvatar)
+                    : dataDetailUser?.avatar ||
+                      (typeof dataSubmit?.imageAvatar === "string" &&
+                        dataSubmit?.imageAvatar)
                 }
                 alt=""
                 onClick={() => imgRef.current.click()}
@@ -210,12 +223,7 @@ export default function ModalAddInfo(props) {
               />
             ) : (
               <img
-                src={
-                  base64Img
-                    ? URL.createObjectURL(dataSubmit.imageAvatar)
-                    : dataDetailUser?.avatar ||
-                      require("../../assets/user-defaut.png")
-                }
+                src={require("../../assets/user-defaut.png")}
                 alt=""
                 onClick={() => imgRef.current.click()}
                 style={{ cursor: "pointer" }}
@@ -248,13 +256,37 @@ export default function ModalAddInfo(props) {
 
         <div>
           <p>Họ Và Tên</p>
-          <Input
+          {/* <Input
             value={dataSubmit?.name}
             status={errorValidate?.name && "error"}
             onChange={(event) =>
               setdataSubmit({ ...dataSubmit, name: event.target.value })
             }
             readOnly={!admin}
+          /> */}
+          <Select
+            showSearch
+            className="w-100"
+            value={dataSubmit?.name}
+            options={dataListUserCompany?.map((item) => {
+              return {
+                value: item?.name,
+                label: item?.name,
+              };
+            })}
+            onChange={(value) => {
+              const dataUserFind = dataListUserCompany.find(
+                (item) => item.name === value
+              );
+              setdataSubmit({
+                ...dataSubmit,
+                name: dataUserFind?.name,
+                part: dataUserFind?.part,
+                phone: dataUserFind?.phone,
+                code: dataUserFind?.code,
+                imageAvatar: dataUserFind?.avatar,
+              });
+            }}
           />
         </div>
         <div className="mt-3">
@@ -264,10 +296,7 @@ export default function ModalAddInfo(props) {
               <Input
                 value={dataSubmit?.part}
                 status={errorValidate?.part && "error"}
-                onChange={(event) =>
-                  setdataSubmit({ ...dataSubmit, part: event.target.value })
-                }
-                readOnly={!admin}
+                readOnly
               />
             </div>
             <div style={{ width: "47%" }}>
@@ -278,7 +307,7 @@ export default function ModalAddInfo(props) {
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, phone: event.target.value })
                 }
-                readOnly={!admin}
+                readOnly
               />
             </div>
           </div>
@@ -304,7 +333,7 @@ export default function ModalAddInfo(props) {
                 onChange={(event) =>
                   setdataSubmit({ ...dataSubmit, code: event.target.value })
                 }
-                readOnly={!admin}
+                readOnly
               />
             </div>
           </div>

@@ -9,6 +9,22 @@ const UsersFloorNineCollectionRef = collection(db, "user-floor-nine");
 const UsersFloorTenCollectionRef = collection(db, "user-floor-ten");
 const UsersReceptionistCollectionRef = collection(db, "user-letan");
 const UsersTranNaoCollectionRef = collection(db, "user-floor-trannao");
+const UsersAll = collection(db, "user-company");
+
+export const getListAllUser = async () => {
+  try {
+    const data = await getDocs(UsersAll);
+
+    const filterData = data.docs.map((item) => ({
+      id: item.id,
+      ...item.data(),
+    }));
+    return filterData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getListUserReceptionist = async () => {
   try {
     const data = await getDocs(UsersReceptionistCollectionRef);
