@@ -31,6 +31,8 @@ export default function FloorSix() {
         <div className="d-flex" style={{ marginRight: "30px" }}>
           <div>
             <Seat lyingVertically dataDetailUser={SeatUser(12, dataRoom)} />
+            <Seat lyingVertically dataDetailUser={SeatUser(13, dataRoom)} />
+            <Seat lyingVertically dataDetailUser={SeatUser(14, dataRoom)} />
           </div>
           <div>
             <Seat vertical dataDetailUser={SeatUser(9, dataRoom)} />
