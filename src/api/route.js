@@ -24,6 +24,26 @@ export const getListAllUser = async () => {
     console.log(error);
   }
 };
+export const updateUserTableList = async (props) => {
+  try {
+    const dataList = await getListAllUser();
+
+    const dataUser = dataList.find((item) => item?.name === props?.name);
+    if (dataUser) {
+      const newParams = {
+        ...dataUser,
+        seat: props?.seat,
+      };
+      await updateDoc(doc(db, "user-company", dataUser?.id), newParams);
+      return {
+        status: 200,
+        message: "Update success",
+      };
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getListUserReceptionist = async () => {
   try {

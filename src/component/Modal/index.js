@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Modal, Select } from "antd";
 
 import ModalChange from "./ModalChange";
-import { getListAllUser, updateUser, UploadImges } from "../../api/route";
+import {
+  getListAllUser,
+  updateUser,
+  updateUserTableList,
+  UploadImges,
+} from "../../api/route";
 
 const APIGetListUserCompany = async ({ setDataListUserCompany }) => {
   const response = await getListAllUser();
@@ -16,8 +21,15 @@ const APIUpload = async (props) => {
 };
 
 const APIAddUser = async (props) => {
-  const { dataSubmit, floor, setIsModalOpen, setISsubmit, setIsloading } =
-    props;
+  const {
+    dataSubmit,
+    floor,
+    dataListUserCompany,
+    setIsModalOpen,
+    setISsubmit,
+    setIsloading,
+    setErrorModal,
+  } = props;
   let resImg = {};
   if (dataSubmit?.base64Img) {
     resImg = await APIUpload({ base64: dataSubmit?.base64Img });
@@ -31,17 +43,31 @@ const APIAddUser = async (props) => {
     phone: dataSubmit?.phone,
     seat: dataSubmit?.seat,
   };
-  const response = await updateUser(floor, params);
-  if (response.status === 200) {
-    setIsModalOpen(false);
-    setISsubmit(false);
-    setIsloading(false);
-    window.location.reload();
+
+  const dataFindSeatUser = dataListUserCompany.find(
+    (item) => item?.name === params?.name
+  );
+  // console.log("data check", {
+  //   params,
+  //   dataFindSeatUser,
+  //   dataListUserCompany,
+  // });
+  if (dataFindSeatUser?.seat) {
+    setErrorModal(true);
   } else {
-    setIsModalOpen(false);
-    setISsubmit(false);
-    setIsloading(false);
-    window.location.reload();
+    // const response = await updateUser(floor, params);
+    await updateUserTableList(params);
+    // if (response.status === 200) {
+    //   setIsModalOpen(false);
+    //   setISsubmit(false);
+    //   setIsloading(false);
+    //   window.location.reload();
+    // } else {
+    //   setIsModalOpen(false);
+    //   setISsubmit(false);
+    //   setIsloading(false);
+    //   window.location.reload();
+    // }
   }
 };
 const APIDelete = async (props) => {
@@ -72,11 +98,11 @@ export default function ModalAddInfo(props) {
   const [dataListUserCompany, setDataListUserCompany] = useState([]);
   const [dataSubmit, setdataSubmit] = useState({});
   const [errorValidate, setErrorValidate] = useState({});
+  const [errorModal, setErrorModal] = useState(false);
   const [isLoading, setIsloading] = useState(false);
   const [isSubmit, setISsubmit] = useState(false);
   const [openModalChange, setOpenModalChange] = useState(false);
   const [base64Img, setBase64Img] = useState("");
-
   useEffect(() => {
     APIGetListUserCompany({ setDataListUserCompany });
   }, []);
@@ -123,6 +149,7 @@ export default function ModalAddInfo(props) {
     if (errorValidate && Object.keys(errorValidate).length === 0 && isSubmit) {
       APIAddUser({
         floor: floor,
+        dataListUserCompany,
         dataSubmit: {
           ...dataSubmit,
           id: dataDetailUser?.id,
@@ -131,6 +158,7 @@ export default function ModalAddInfo(props) {
         setIsModalOpen,
         setISsubmit,
         setIsloading,
+        setErrorModal,
       });
     }
   }, [errorValidate, isSubmit]);
@@ -161,7 +189,6 @@ export default function ModalAddInfo(props) {
     }
     setErrorValidate(error);
   };
-
   return (
     <>
       <Modal
@@ -199,6 +226,17 @@ export default function ModalAddInfo(props) {
             <Button type="primary" loading={isLoading} onClick={handleOk}>
               Xác nhận
             </Button>
+            {errorModal && (
+              <p
+                style={{
+                  color: "red",
+                  textAlign: "end",
+                  fontSize: "16px",
+                }}
+              >
+                Nhân viên đã có chỗ ngồi
+              </p>
+            )}
           </>
         }
       >
