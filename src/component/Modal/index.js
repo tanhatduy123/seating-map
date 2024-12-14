@@ -24,14 +24,13 @@ const APIAddUser = async (props) => {
   }
   const params = {
     id: dataSubmit?.id,
-    avatar: resImg?.url || dataSubmit?.avatar,
+    avatar: resImg?.url || dataSubmit?.avatar || dataSubmit?.imageAvatar,
     name: dataSubmit?.name,
     code: dataSubmit?.code,
     part: dataSubmit?.part,
     phone: dataSubmit?.phone,
     seat: dataSubmit?.seat,
   };
-
   const response = await updateUser(floor, params);
   if (response.status === 200) {
     setIsModalOpen(false);
@@ -256,14 +255,6 @@ export default function ModalAddInfo(props) {
 
         <div>
           <p>Họ Và Tên</p>
-          {/* <Input
-            value={dataSubmit?.name}
-            status={errorValidate?.name && "error"}
-            onChange={(event) =>
-              setdataSubmit({ ...dataSubmit, name: event.target.value })
-            }
-            readOnly={!admin}
-          /> */}
           <Select
             showSearch
             className="w-100"
