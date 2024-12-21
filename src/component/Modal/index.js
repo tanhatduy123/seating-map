@@ -44,31 +44,31 @@ const APIAddUser = async (props) => {
     seat: dataSubmit?.seat,
   };
 
-  const dataFindSeatUser = dataListUserCompany.find(
-    (item) => item?.name === params?.name
-  );
-  // console.log("data check", {
-  //   params,
-  //   dataFindSeatUser,
-  //   dataListUserCompany,
-  // });
-  if (dataFindSeatUser?.seat) {
-    setErrorModal(true);
+  // const dataFindSeatUser = dataListUserCompany.find(
+  //   (item) => item?.name === params?.name
+  // );
+  // // console.log("data check", {
+  // //   params,
+  // //   dataFindSeatUser,
+  // //   dataListUserCompany,
+  // // });
+  // if (dataFindSeatUser?.seat) {
+  //   setErrorModal(true);
+  // } else {
+  const response = await updateUser(floor, params);
+  await updateUserTableList(params);
+  if (response.status === 200) {
+    setIsModalOpen(false);
+    setISsubmit(false);
+    setIsloading(false);
+    window.location.reload();
   } else {
-    // const response = await updateUser(floor, params);
-    await updateUserTableList(params);
-    // if (response.status === 200) {
-    //   setIsModalOpen(false);
-    //   setISsubmit(false);
-    //   setIsloading(false);
-    //   window.location.reload();
-    // } else {
-    //   setIsModalOpen(false);
-    //   setISsubmit(false);
-    //   setIsloading(false);
-    //   window.location.reload();
-    // }
+    setIsModalOpen(false);
+    setISsubmit(false);
+    setIsloading(false);
+    window.location.reload();
   }
+  // }
 };
 const APIDelete = async (props) => {
   const { setIsloading, dataSubmit, floor } = props;
