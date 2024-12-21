@@ -9,6 +9,7 @@ import Login from "./component/Login";
 import Receptionist from "./component/Receptionist";
 import FloorSix from "./component/Floor-6";
 import TranNao from "./component/TranNao";
+import TranNaoClone from "./component/TranNaoClone";
 
 function App() {
   const router = useNavigate();
@@ -67,7 +68,8 @@ function App() {
             onChange={(event) => setDataOption(event.target.value)}
           >
             <option value="receptionist">Lễ Tân</option>
-            <option value="tran-nao">Trần Não</option>
+            <option value="tran-nao">Trần Não 1</option>
+            <option value="tran-nao-version2">Trần Não 2</option>
             <option value="floor-six">Lầu 6</option>
             <option value="floor-seven">lầu 7</option>
             <option value="floor-eighth">lầu 8</option>
@@ -80,6 +82,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/tran-nao" element={<TranNao />} />
+          <Route path="/tran-nao-version2" element={<TranNaoClone />} />
           <Route path="/receptionist" element={<Receptionist />} />
           <Route path="/floor-six" element={<FloorSix />} />
           <Route path="/floor-seven" element={<FloorSeven />} />
