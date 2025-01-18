@@ -138,7 +138,22 @@ export const getListUserFloorTranNao = async () => {
     console.log(error);
   }
 };
-
+export const APIDeleteSeatSourceAdmin = async (seat) => {
+  const listUserSourceAdmin = await getListAllUser();
+  const dataUserSourceAdmin = listUserSourceAdmin.find(
+    (item) => item.seat === seat
+  );
+  if (Object.keys(dataUserSourceAdmin).length > 0) {
+    await updateDoc(doc(db, "user-company", dataUserSourceAdmin?.id), {
+      ...dataUserSourceAdmin,
+      seat: "",
+    });
+    return {
+      status: 200,
+      message: "Update success",
+    };
+  }
+};
 export const updateUser = async (floor, props) => {
   if (floor === "receptionist") {
     const dataList = await getListUserReceptionist();
@@ -156,7 +171,6 @@ export const updateUser = async (floor, props) => {
   if (floor === "tran-nao") {
     const dataList = await getListUserFloorTranNao();
     const idUser = dataList.find((item) => item?.id === props?.id)?.id;
-
     if (idUser) {
       await updateDoc(doc(db, "user-floor-trannao", idUser), props);
       return {

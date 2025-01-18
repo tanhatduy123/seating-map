@@ -3,6 +3,7 @@ import { Button, Input, Modal, Select } from "antd";
 
 import ModalChange from "./ModalChange";
 import {
+  APIDeleteSeatSourceAdmin,
   getListAllUser,
   updateUser,
   updateUserTableList,
@@ -52,6 +53,7 @@ const APIAddUser = async (props) => {
   //   dataFindSeatUser,
   //   dataListUserCompany,
   // });
+  // console.log("dataFindSeatUser", dataFindSeatUser);
   if (dataFindSeatUser?.seat) {
     setErrorModal(true);
   } else {
@@ -83,6 +85,8 @@ const APIDelete = async (props) => {
     seat: dataSubmit?.seat,
   };
   const response = await updateUser(floor, params);
+  await APIDeleteSeatSourceAdmin(dataSubmit?.seat);
+
   if (response?.status === 200) {
     setIsloading(false);
     window.location.reload();
