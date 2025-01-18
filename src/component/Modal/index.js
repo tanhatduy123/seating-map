@@ -48,12 +48,7 @@ const APIAddUser = async (props) => {
   const dataFindSeatUser = dataListUserCompany.find(
     (item) => item?.name === params?.name
   );
-  // console.log("data check", {
-  //   params,
-  //   dataFindSeatUser,
-  //   dataListUserCompany,
-  // });
-  // console.log("dataFindSeatUser", dataFindSeatUser);
+
   if (dataFindSeatUser?.seat) {
     setErrorModal(true);
   } else {
