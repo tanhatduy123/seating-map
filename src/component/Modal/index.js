@@ -201,7 +201,6 @@ export default function ModalAddInfo(props) {
     }
     setErrorValidate(error);
   };
-  console.log("isDisableBtnDelete", isDisableBtnDelete);
   return (
     <>
       <Modal
