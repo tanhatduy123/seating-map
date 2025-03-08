@@ -9,6 +9,7 @@ const UsersFloorNineCollectionRef = collection(db, "user-floor-nine");
 const UsersFloorTenCollectionRef = collection(db, "user-floor-ten");
 const UsersReceptionistCollectionRef = collection(db, "user-letan");
 const UsersTranNaoCollectionRef = collection(db, "user-floor-trannao");
+const UsersTranNaoCollectionV2Ref = collection(db, "user-floor-trannao-v2");
 const UsersAll = collection(db, "user-company");
 
 export const getListAllUser = async () => {
@@ -138,6 +139,19 @@ export const getListUserFloorTranNao = async () => {
     console.log(error);
   }
 };
+export const getListUserFloorTranNaoV2 = async () => {
+  try {
+    const data = await getDocs(UsersTranNaoCollectionV2Ref);
+
+    const filterData = data.docs.map((item) => ({
+      id: item.id,
+      ...item.data(),
+    }));
+    return filterData;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const APIDeleteSeatSourceAdmin = async (seat) => {
   const listUserSourceAdmin = await getListAllUser();
   const dataUserSourceAdmin = listUserSourceAdmin.find(
@@ -173,6 +187,18 @@ export const updateUser = async (floor, props) => {
     const idUser = dataList.find((item) => item?.id === props?.id)?.id;
     if (idUser) {
       await updateDoc(doc(db, "user-floor-trannao", idUser), props);
+      return {
+        status: 200,
+        message: "Update success",
+      };
+    }
+  }
+  if (floor === "tran-nao-version2") {
+    const dataList = await getListUserFloorSix();
+    const idUser = dataList.find((item) => item?.id === props?.id)?.id;
+
+    if (idUser) {
+      await updateDoc(doc(db, "user-floor-trannao-v2", idUser), props);
       return {
         status: 200,
         message: "Update success",

@@ -81,7 +81,6 @@ const APIDelete = async (props) => {
   };
   const response = await updateUser(floor, params);
   await APIDeleteSeatSourceAdmin(dataSubmit?.seat);
-
   if (response?.status === 200) {
     setIsloading(false);
     window.location.reload();
@@ -101,10 +100,24 @@ export default function ModalAddInfo(props) {
   const [isLoading, setIsloading] = useState(false);
   const [isSubmit, setISsubmit] = useState(false);
   const [openModalChange, setOpenModalChange] = useState(false);
+  const [isDisableBtnDelete, setIsDisableBtnDelete] = useState(true);
   const [base64Img, setBase64Img] = useState("");
   useEffect(() => {
     APIGetListUserCompany({ setDataListUserCompany });
   }, []);
+
+  useEffect(() => {
+    if (
+      dataDetailUser?.avatar ||
+      dataDetailUser?.name ||
+      dataDetailUser?.part ||
+      dataDetailUser?.phone
+    ) {
+      setIsDisableBtnDelete(false);
+    } else {
+      setIsDisableBtnDelete(true);
+    }
+  }, [dataDetailUser]);
   const handleOk = () => {
     HandleSubmit();
     setISsubmit(true);
@@ -188,6 +201,7 @@ export default function ModalAddInfo(props) {
     }
     setErrorValidate(error);
   };
+  console.log("isDisableBtnDelete", isDisableBtnDelete);
   return (
     <>
       <Modal
@@ -205,6 +219,7 @@ export default function ModalAddInfo(props) {
         footer={
           <>
             <Button
+              disabled={isDisableBtnDelete}
               onClick={() => {
                 if (admin) {
                   HandleDelete(dataDetailUser?.id);

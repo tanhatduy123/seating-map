@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Seat from "../Seat";
-import { getListUserFloorSix } from "../../api/route";
+import { getListUserFloorTranNaoV2 } from "../../api/route";
 import { SeatUser } from "../../helpers";
 
 const getDataRoomFloor = async (props) => {
   const { setIsloading, setDataRoom } = props;
   setIsloading(true);
-  const response = await getListUserFloorSix();
+  const response = await getListUserFloorTranNaoV2();
   if (Object.keys(response).length > 0) {
     setDataRoom(response);
   }
   setIsloading(false);
 };
 
-export default function TranNaoClone() {
+export default function TranNaoV2() {
   const [dataRoom, setDataRoom] = useState([]);
   const [isLoading, setIsloading] = useState(false);
   useEffect(() => {

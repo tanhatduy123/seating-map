@@ -9,7 +9,7 @@ import Login from "./component/Login";
 import Receptionist from "./component/Receptionist";
 import FloorSix from "./component/Floor-6";
 import TranNao from "./component/TranNao";
-import TranNaoClone from "./component/TranNaoClone";
+import TranNaoV2 from "./component/TranNaoV2";
 
 function App() {
   const router = useNavigate();
@@ -82,7 +82,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/tran-nao" element={<TranNao />} />
-          <Route path="/tran-nao-version2" element={<TranNaoClone />} />
+          <Route path="/tran-nao-version2" element={<TranNaoV2 />} />
           <Route path="/receptionist" element={<Receptionist />} />
           <Route path="/floor-six" element={<FloorSix />} />
           <Route path="/floor-seven" element={<FloorSeven />} />
