@@ -157,7 +157,7 @@ export const APIDeleteSeatSourceAdmin = async (seat) => {
   const dataUserSourceAdmin = listUserSourceAdmin.find(
     (item) => item.seat === seat
   );
-  if (Object.keys(dataUserSourceAdmin).length > 0) {
+  if (dataUserSourceAdmin && Object.keys(dataUserSourceAdmin)?.length > 0) {
     await updateDoc(doc(db, "user-company", dataUserSourceAdmin?.id), {
       ...dataUserSourceAdmin,
       seat: "",
@@ -194,9 +194,8 @@ export const updateUser = async (floor, props) => {
     }
   }
   if (floor === "tran-nao-version2") {
-    const dataList = await getListUserFloorSix();
+    const dataList = await getListUserFloorTranNaoV2();
     const idUser = dataList.find((item) => item?.id === props?.id)?.id;
-
     if (idUser) {
       await updateDoc(doc(db, "user-floor-trannao-v2", idUser), props);
       return {
@@ -294,84 +293,59 @@ export const UploadImges = async (base64) => {
 
 export const ChangeSeat = async (props) => {
   const { idCurrent, idChange, floorCurrent, floorChange } = props;
-  let dataUserCurrent = {};
-  let dataUserChange = {};
-  // get Detail User Room Current
-  if (idCurrent && floorCurrent) {
-    const id = dataAllFloor.find((item) => item.value === floorCurrent)?.id;
-    if (id == 1) {
-      const response = await getListUserFloorTranNao();
-      dataUserCurrent = response.find((item) => item.id === idCurrent);
-    }
-    if (id == 2) {
-      const response = await getListUserFloorSix();
-      dataUserCurrent = response.find((item) => item.id === idCurrent);
-    }
-    if (id == 3) {
-      const response = await getListUserFloorSeven();
-      dataUserCurrent = response.find((item) => item.id === idCurrent);
-    }
-    if (id == 4) {
-      const response = await getListUserFloorEight();
-      dataUserCurrent = response.find((item) => item.id === idCurrent);
-    }
-    if (id == 5) {
-      const response = await getListUserFloorNine();
-      dataUserCurrent = response.find((item) => item.id === idCurrent);
-    }
-    if (id == 6) {
-      const response = await getListUserFloorTen();
-      dataUserCurrent = response.find((item) => item.id === idCurrent);
-    }
-  }
-  //get Detail User Change
-  if (idChange && floorChange) {
-    const id = dataAllFloor.find((item) => item.value === idChange)?.id;
-    if (id == 1) {
-      const response = await getListUserFloorTranNao();
-      dataUserChange = response.find((item) => item.seat === floorChange);
-    }
-    if (id == 2) {
-      const response = await getListUserFloorSix();
-      dataUserChange = response.find((item) => item.seat === floorChange);
-    }
-    if (id == 3) {
-      const response = await getListUserFloorSeven();
-      dataUserChange = response.find((item) => item.seat === floorChange);
-    }
-    if (id == 4) {
-      const response = await getListUserFloorEight();
-      dataUserChange = response.find((item) => item.seat === floorChange);
-    }
-    if (id == 5) {
-      const response = await getListUserFloorNine();
-      dataUserChange = response.find((item) => item.seat === floorChange);
-    }
-    if (id == 6) {
-      const response = await getListUserFloorTen();
-      dataUserChange = response.find((item) => item.seat === floorChange);
-    }
-  }
-  if (dataUserCurrent && Object.keys(dataUserCurrent).length > 0) {
-    const dataUser = {
+
+  const floorServiceMap = {
+    1: getListUserFloorTranNao,
+    2: getListUserFloorTranNaoV2,
+    3: getListUserFloorSix,
+    4: getListUserFloorSeven,
+    5: getListUserFloorEight,
+    6: getListUserFloorNine,
+    7: getListUserFloorTen,
+  };
+
+  const getUserDetail = async (floorValue, matchFn) => {
+    const floor = dataAllFloor.find((item) => item.value === floorValue);
+    const floorId = floor?.id;
+    const fetchFunction = floorServiceMap[floorId];
+
+    if (!fetchFunction) return null;
+
+    const users = await fetchFunction();
+    return users.find(matchFn) || null;
+  };
+
+  const dataUserCurrent =
+    idCurrent && floorCurrent
+      ? await getUserDetail(floorCurrent, (user) => user.id === idCurrent)
+      : null;
+
+  const dataUserChange =
+    idChange && floorChange
+      ? await getUserDetail(idChange, (user) => user.seat === floorChange)
+      : null;
+
+  if (dataUserCurrent && dataUserChange) {
+    const newDataUserCurrent = {
       ...dataUserCurrent,
-      id: dataUserChange?.id,
-      id_seat: dataUserChange?.id_seat,
-      seat: dataUserChange?.seat,
+      id: dataUserChange.id,
+      id_seat: dataUserChange.id_seat,
+      seat: dataUserChange.seat,
     };
 
-    await updateUser(idChange, dataUser);
-  }
-  if (dataUserChange && Object.keys(dataUserChange).length > 0) {
-    const dataUser = {
+    const newDataUserChange = {
       ...dataUserChange,
-      id: dataUserCurrent?.id,
-      id_seat: dataUserCurrent?.id_seat,
-      seat: dataUserCurrent?.seat,
+      id: dataUserCurrent.id,
+      id_seat: dataUserCurrent.id_seat,
+      seat: dataUserCurrent.seat,
     };
 
-    await updateUser(floorCurrent, dataUser);
+    await Promise.all([
+      updateUser(idChange, newDataUserCurrent),
+      updateUser(floorCurrent, newDataUserChange),
+    ]);
   }
+
   return {
     status: 200,
     message: "Update success",

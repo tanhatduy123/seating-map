@@ -22,7 +22,6 @@ export default function TranNao() {
     }
     // eslint-disable-next-line
   }, []);
-
   return (
     <div className="container-floor" style={{ padding: "7% 10% 12% 7%" }}>
       <div className="d-flex">

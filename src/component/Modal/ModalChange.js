@@ -10,99 +10,38 @@ import {
   getListUserFloorSix,
   getListUserFloorTen,
   getListUserFloorTranNao,
+  getListUserFloorTranNaoV2,
 } from "../../api/route";
 
-const APIGetListSeatInFloor = async ({ id, setDataSeatFloor }) => {
-  if (id == 1) {
-    const response = await getListUserFloorTranNao();
-    if (response && response.length > 0) {
-      const dataParser = response
-        .filter((item) => item.seat)
-        .sort((a, b) => a.id_seat - b.id_seat)
-        .map((item) => {
-          return {
-            id: item.id_seat,
-            value: item.seat,
-          };
-        });
-      setDataSeatFloor(dataParser);
-    }
-  }
-  if (id == 2) {
-    const response = await getListUserFloorSix();
-    if (response && response.length > 0) {
-      const dataParser = response
-        .filter((item) => item.seat)
-        .sort((a, b) => a.id_seat - b.id_seat)
-        .map((item) => {
-          return {
-            id: item.id_seat,
-            value: item.seat,
-          };
-        });
-      setDataSeatFloor(dataParser);
-    }
-  }
-  if (id == 3) {
-    const response = await getListUserFloorSeven();
-    if (response && response.length > 0) {
-      const dataParser = response
-        .filter((item) => item.seat)
-        .sort((a, b) => a.id_seat - b.id_seat)
-        .map((item) => {
-          return {
-            id: item.id_seat,
-            value: item.seat,
-          };
-        })
-        .sort((a, b) => a.id - b.id);
-      setDataSeatFloor(dataParser);
-    }
-  }
-  if (id == 4) {
-    const response = await getListUserFloorEight();
-    if (response && response.length > 0) {
-      const dataParser = response
-        .filter((item) => item.seat)
-        .sort((a, b) => a.id_seat - b.id_seat)
-        .map((item) => {
-          return {
-            id: item.id_seat,
-            value: item.seat,
-          };
-        });
-      setDataSeatFloor(dataParser);
-    }
-  }
-  if (id == 5) {
-    const response = await getListUserFloorNine();
-    if (response && response.length > 0) {
-      const dataParser = response
-        .filter((item) => item.seat)
-        .sort((a, b) => a.id_seat - b.id_seat)
-        .map((item) => {
-          return {
-            id: item.id_seat,
-            value: item.seat,
-          };
-        });
-      setDataSeatFloor(dataParser);
-    }
-  }
-  if (id == 6) {
-    const response = await getListUserFloorTen();
-    if (response && response.length > 0) {
-      const dataParser = response
-        .filter((item) => item.seat)
-        .sort((a, b) => a.id_seat - b.id_seat)
-        .map((item) => {
-          return {
-            id: item.id_seat,
-            value: item.seat,
-          };
-        });
-      setDataSeatFloor(dataParser);
-    }
+export const APIGetListSeatInFloor = async ({ id, setDataSeatFloor }) => {
+  const floorServiceMap = {
+    1: getListUserFloorTranNao,
+    2: getListUserFloorTranNaoV2,
+    3: getListUserFloorSix,
+    4: getListUserFloorSeven,
+    5: getListUserFloorEight,
+    6: getListUserFloorNine,
+    7: getListUserFloorTen,
+  };
+
+  const fetchSeats = floorServiceMap[id];
+  if (!fetchSeats) return;
+
+  try {
+    const response = await fetchSeats();
+    if (!Array.isArray(response) || response.length === 0) return;
+
+    const dataParser = response
+      .filter((item) => item.seat)
+      .sort((a, b) => a.id_seat - b.id_seat)
+      .map((item) => ({
+        id: item.id_seat,
+        value: item.seat,
+      }));
+
+    setDataSeatFloor(dataParser);
+  } catch (error) {
+    console.error("Error fetching seats for floor:", id, error);
   }
 };
 
@@ -115,6 +54,7 @@ const APIChangeSeat = async (props) => {
     floorCurrent: floorCurrent,
     floorChange: valueFloorChange,
   };
+
   const response = await ChangeSeat(params);
   if (response.status === 200) {
     window.location.reload();

@@ -80,6 +80,7 @@ const APIDelete = async (props) => {
     seat: dataSubmit?.seat,
   };
   const response = await updateUser(floor, params);
+  await updateUserTableList({ ...dataSubmit, seat: "" });
   await APIDeleteSeatSourceAdmin(dataSubmit?.seat);
   if (response?.status === 200) {
     setIsloading(false);
